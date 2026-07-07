@@ -1,0 +1,36 @@
+{
+  "kind": "critique-panel",
+  "score": 4,
+  "axes": {
+    "clarity": {
+      "score": 4,
+      "notes": "Launcher intent is unambiguous: two cards, primary (calculator) visually emphasized with stronger border + hover lift. Brand mark anchors the page."
+    },
+    "hierarchy": {
+      "score": 4,
+      "notes": "Eye path: brand-mark eyebrow → h1 → primary card. Calculator card has card-primary class with navy-tinted border + elevated hover. Secondary card is subtler. Clear primary/secondary distinction."
+    },
+    "typography": {
+      "score": 4,
+      "notes": "Mono eyebrow at 11px with 0.1em tracking (exceeds 0.06em ALL CAPS floor). H1 at clamp(24-36px) with -0.015em negative tracking. Card titles at 17px/600 weight. Three-weight system: 400 body, 500 UI, 600 headings. No Inter-as-display issue."
+    },
+    "motion": {
+      "score": 4,
+      "notes": "180ms transitions with cubic-bezier(0.2,0,0,1) for hover/focus. Primary card translateY(-2px) on hover is the single decisive motion. prefers-reduced-motion strips transform and shortens all transitions. No decorative or looping motion."
+    },
+    "brand": {
+      "score": 4,
+      "notes": "Navy #112035 + blue #2D49E8 brand tokens used consistently. Single accent (blue) for card-foot + focus rings — 2 visible uses per screen. No off-palette colors. Brand mark '京阪住業 / KEIHAN JUGYO' reinforces identity."
+    }
+  },
+  "fixes_applied": [
+    "P0: :focus-visible on .card and .lang-tab (was missing — keyboard a11y)",
+    "P0: <main> + <footer> landmarks (was bare divs — WCAG 2.4.1)",
+    "P0: lang-tab min-height 24px on all breakpoints (was 21px on mobile — WCAG 2.5.8)",
+    "P1: aria-pressed on lang-tab buttons + sync in setLang() (screen reader a11y)",
+    "P1: prefers-reduced-motion media query (vestibular a11y)",
+    "P1: .card-primary visual emphasis on calculator card (hierarchy fix)",
+    "P1: .brand-mark eyebrow above title (visual anchor)",
+    "P2: dynamic <title> update in setLang() (i18n completeness)"
+  ]
+}

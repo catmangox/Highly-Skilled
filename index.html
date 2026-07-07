@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>高度人材ポイント計算 · 京阪住業</title>
+  <style>
+    :root {
+      --navy: #112035;
+      --blue: #2D49E8;
+      --paper: #FFFFFF;
+      --bg: #F3F4F6;
+      --ink: #0A0A0A;
+      --silver-deep: #9EA5B0;
+      --line: #E5E5E5;
+      --font-body: 'Roboto', 'Noto Sans JP', 'Noto Sans SC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .launcher {
+      text-align: center;
+      max-width: 520px;
+    }
+    .launcher h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--navy);
+      margin: 0 0 8px;
+    }
+    .launcher .sub {
+      color: var(--silver-deep);
+      font-size: 15px;
+      margin: 0 0 40px;
+      line-height: 1.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 180ms cubic-bezier(0.2, 0, 0, 1);
+      text-align: left;
+    }
+    .card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 20px rgba(17,32,53,0.08);
+    }
+    .card:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+      border-color: var(--blue);
+    }
+    .card-primary {
+      border-color: color-mix(in oklab, var(--navy) 25%, var(--line));
+    }
+    .card-primary:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 28px rgba(17,32,53,0.12);
+      transform: translateY(-2px);
+    }
+    .card-icon {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--silver-deep);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .card-foot {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--blue);
+    }
+    .footer-note {
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--silver-deep);
+    }
+    .footer-note p {
+      margin: 0;
+      line-height: 1.6;
+    }
+    .lang-switcher {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      display: flex;
+      gap: 2px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 3px;
+      box-shadow: 0 2px 12px rgba(17,32,53,0.06);
+    }
+    .lang-tab {
+      border: 0;
+      background: transparent;
+      color: var(--silver-deep);
+      font-family: var(--font-body);
+      font-size: 12px;
+      padding: 6px 10px;
+      min-height: 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 180ms cubic-bezier(0.2, 0, 0, 1);
+      white-space: nowrap;
+    }
+    .lang-tab:hover { color: var(--ink); }
+    .lang-tab:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 1px;
+    }
+    .lang-tab.active { background: var(--navy); color: var(--paper); font-weight: 500; }
+    .brand-mark {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--silver-deep);
+      margin-bottom: 16px;
+    }
+    @media (max-width: 480px) {
+      .cards { grid-template-columns: 1fr; }
+      .lang-switcher { top: 10px; right: 10px; }
+      .lang-tab { padding: 5px 8px; font-size: 11px; min-height: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+      .card-primary:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switcher" id="langTabs" role="group" aria-label="Language">
+    <button class="lang-tab active" data-lang="ja" aria-pressed="true">日本語</button>
+    <button class="lang-tab" data-lang="zh-CN" aria-pressed="false">简体中文</button>
+    <button class="lang-tab" data-lang="zh-TW" aria-pressed="false">繁體中文</button>
+    <button class="lang-tab" data-lang="en" aria-pressed="false">English</button>
+  </div>
+
+  <main class="launcher">
+    <div class="brand-mark">京阪住業 / KEIHAN JUGYO</div>
+    <h1 data-i18n="pageTitle">高度人材ポイント計算</h1>
+    <p class="sub" data-i18n="pageSub">Highly Skilled Professional Points Calculator<br>京阪住業株式会社</p>
+
+    <div class="cards">
+      <a href="calculator.html" class="card card-primary" data-od-id="card-calculator">
+        <div class="card-icon">Calculator</div>
+        <h3 data-i18n="card1Title">ポイント計算ツール</h3>
+        <p data-i18n="card1Desc">分野を選んで各項目を入力。リアルタイムで合計スコアとカテゴリ別小計を表示します。</p>
+        <div class="card-foot" data-i18n="card1Foot">計算を始める →</div>
+      </a>
+      <a href="landing.html" class="card" data-od-id="card-overview">
+        <div class="card-icon">Overview</div>
+        <h3 data-i18n="card2Title">ツールの紹介</h3>
+        <p data-i18n="card2Desc">高度人材ポイント制の概要、3つの特長、使い方のステップをまとめた紹介ページです。</p>
+        <div class="card-foot" data-i18n="card2Foot">詳しく見る →</div>
+      </a>
+    </div>
+
+    <footer class="footer-note" data-od-id="footer">
+      <p data-i18n="footerNote">本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。<br>© 京阪住業株式会社</p>
+    </footer>
+  </main>
+
+<script>
+const LANG = {
+  ja: {
+    pageTitle: '高度人材ポイント計算',
+    pageSub: 'Highly Skilled Professional Points Calculator<br>京阪住業株式会社',
+    card1Title: 'ポイント計算ツール',
+    card1Desc: '分野を選んで各項目を入力。リアルタイムで合計スコアとカテゴリ別小計を表示します。',
+    card1Foot: '計算を始める →',
+    card2Title: 'ツールの紹介',
+    card2Desc: '高度人材ポイント制の概要、3つの特長、使い方のステップをまとめた紹介ページです。',
+    card2Foot: '詳しく見る →',
+    footerNote: '本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。<br>© 京阪住業株式会社'
+  },
+  'zh-CN': {
+    pageTitle: '高度人才积分计算',
+    pageSub: 'Highly Skilled Professional Points Calculator<br>京阪住業株式会社',
+    card1Title: '积分计算工具',
+    card1Desc: '选择领域并输入各项。实时显示总分与各分类小计。',
+    card1Foot: '开始计算 →',
+    card2Title: '工具介绍',
+    card2Desc: '高度人才积分制度概要、三大特色、使用步骤的介绍页面。',
+    card2Foot: '查看详情 →',
+    footerNote: '本工具仅供参考。实际审查结果以出入国在留管理厅的判断为准。<br>© 京阪住業株式会社'
+  },
+  'zh-TW': {
+    pageTitle: '高度人才積分計算',
+    pageSub: 'Highly Skilled Professional Points Calculator<br>京阪住業株式會社',
+    card1Title: '積分計算工具',
+    card1Desc: '選擇領域並輸入各項。即時顯示總分與各分類小計。',
+    card1Foot: '開始計算 →',
+    card2Title: '工具介紹',
+    card2Desc: '高度人才積分制度概要、三大特色、使用步驟的介紹頁面。',
+    card2Foot: '查看詳情 →',
+    footerNote: '本工具僅供參考。實際審查結果以出入國在留管理廳的判斷為準。<br>© 京阪住業株式會社'
+  },
+  en: {
+    pageTitle: 'Highly Skilled Professional Points Calculator',
+    pageSub: 'Highly Skilled Professional Points Calculator<br>Keihan Jugyo Co., Ltd.',
+    card1Title: 'Points Calculator',
+    card1Desc: 'Select your field and enter each item. Total score and category subtotals update in real time.',
+    card1Foot: 'Start Calculating →',
+    card2Title: 'Tool Overview',
+    card2Desc: 'An introduction page covering the points system overview, 3 key features, and usage steps.',
+    card2Foot: 'Learn More →',
+    footerNote: 'This tool is for reference only. Actual screening results are determined by the Immigration Services Agency of Japan.<br>© Keihan Jugyo Co., Ltd.'
+  }
+};
+
+const HTML_KEYS = new Set(['pageSub', 'footerNote']);
+let currentLang = 'ja';
+
+function updateAllI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (HTML_KEYS.has(key)) {
+      el.innerHTML = LANG[currentLang][key];
+    } else {
+      el.textContent = LANG[currentLang][key];
+    }
+  });
+  document.documentElement.lang = currentLang === 'en' ? 'en' : currentLang;
+}
+
+function setLang(lang) {
+  if (!LANG[lang]) return;
+  currentLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(b => {
+    const isActive = b.dataset.lang === lang;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-pressed', isActive);
+  });
+  localStorage.setItem('hsp-lang', lang);
+  updateAllI18n();
+  document.title = LANG[lang].pageTitle + ' · 京阪住業';
+}
+
+document.getElementById('langTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.lang-tab');
+  if (!tab) return;
+  setLang(tab.dataset.lang);
+});
+
+const storedLang = localStorage.getItem('hsp-lang');
+if (storedLang && LANG[storedLang]) {
+  setLang(storedLang);
+}
+</script>
+</body>
+</html>

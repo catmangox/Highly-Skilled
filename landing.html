@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>高度人材ポイント自動計算 · 京阪住業</title>
+  <style>
+    :root {
+      --navy: #112035;
+      --navy-soft: #1A2D45;
+      --navy-50: #EEF0F4;
+      --navy-100: #D6DCE5;
+      --ink: #0A0A0A;
+      --ink-soft: #1F1F1F;
+      --paper: #FFFFFF;
+      --bg: #F3F4F6;
+      --line: #E5E5E5;
+      --silver: #C9CED6;
+      --silver-deep: #9EA5B0;
+      --blue: #2D49E8;
+      --blue-deep: #1F36C2;
+      --ok: #16A34A;
+      --font-body: 'Roboto', 'Noto Sans JP', 'Noto Sans SC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+      --radius: 8px;
+      --radius-lg: 14px;
+      --motion: 200ms;
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topnav {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in oklab, var(--navy) 97%, transparent);
+      backdrop-filter: blur(16px);
+      color: var(--paper);
+    }
+    .topnav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      color: var(--silver);
+    }
+    .nav-brand strong { color: var(--paper); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .home-link { color: var(--silver); }
+    .home-link:hover { color: var(--paper); }
+    .lang-tabs {
+      display: flex;
+      gap: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 3px;
+    }
+    .lang-tab {
+      border: 0;
+      background: transparent;
+      color: var(--silver);
+      font-family: var(--font-body);
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--motion) var(--ease);
+      white-space: nowrap;
+    }
+    .lang-tab:hover { color: var(--paper); }
+    .lang-tab.active { background: rgba(255,255,255,0.15); color: var(--paper); font-weight: 500; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 0;
+      transition: all var(--motion) var(--ease);
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--blue); color: var(--paper); }
+    .btn-primary:hover { background: var(--blue-deep); }
+    .btn-outline {
+      background: transparent;
+      color: var(--paper);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.5); }
+
+    .hero {
+      background: var(--navy);
+      color: var(--paper);
+      padding: 96px 24px 80px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      max-width: 16em;
+      margin: 0 auto 16px;
+    }
+    .hero .lead {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--silver);
+      max-width: 36em;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    section { padding: 80px 24px; }
+    section + section { border-top: 1px solid var(--line); }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-head h2 {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 0 0 12px;
+      color: var(--navy);
+    }
+    .section-head p {
+      color: var(--silver-deep);
+      font-size: 16px;
+      max-width: 28em;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--blue);
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+    .feature-card p {
+      margin: 0;
+      color: var(--silver-deep);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .howto-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      counter-reset: step;
+    }
+    .howto-step {
+      position: relative;
+      padding-top: 40px;
+    }
+    .howto-step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 0; left: 0;
+      width: 30px; height: 30px;
+      background: var(--navy);
+      color: var(--paper);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .howto-step h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+    .howto-step p {
+      font-size: 13px;
+      color: var(--silver-deep);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .threshold-card {
+      background: var(--navy);
+      color: var(--paper);
+      border-radius: var(--radius-lg);
+      padding: 40px 48px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .threshold-num {
+      font-family: var(--font-mono);
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--ok);
+    }
+    .threshold-card p {
+      color: var(--silver);
+      font-size: 15px;
+      margin: 12px 0 0;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 96px 24px;
+      background: var(--paper);
+    }
+    .cta-section h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin: 0 0 12px;
+      color: var(--navy);
+    }
+    .cta-section .lead {
+      color: var(--silver-deep);
+      margin: 0 auto 28px;
+      max-width: 28em;
+    }
+
+    .pagefoot {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--navy);
+      color: var(--silver-deep);
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .howto-steps { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 56px 16px; }
+      .hero { padding: 64px 16px 56px; }
+      .threshold-card { padding: 28px 24px; }
+      .threshold-num { font-size: 56px; }
+    }
+    @media (max-width: 480px) {
+      .howto-steps { grid-template-columns: 1fr; }
+      .topnav-inner { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topnav" data-od-id="topnav">
+  <div class="topnav-inner">
+    <span class="nav-brand"><strong>京阪住業</strong> · <span data-i18n="brandSuffix">高度人材サポート</span></span>
+    <div class="nav-actions">
+      <div class="lang-tabs" id="langTabs">
+        <button class="lang-tab active" data-lang="ja">日本語</button>
+        <button class="lang-tab" data-lang="zh-CN">简体中文</button>
+        <button class="lang-tab" data-lang="zh-TW">繁體中文</button>
+        <button class="lang-tab" data-lang="en">English</button>
+      </div>
+      <a href="index.html" class="btn btn-outline home-link" data-od-id="home-button">‹ <span data-i18n="backHome">ホームへ</span></a>
+      <a href="calculator.html" class="btn btn-outline"><span data-i18n="startCalc">ポイント計算を始める</span> →</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" data-od-id="hero">
+  <h1 data-i18n="heroTitle">高度人材ポイント、30秒で自動計算</h1>
+  <p class="lead" data-i18n="heroLead">
+    日本の高度外国人材ポイント制に基づき、学歴・職歴・年収・年齢・研究実績・各種ボーナスを入力するだけで合計スコアを自動算出。日本語・中国語・英語に対応し、70点の合格ラインを一目で確認できます。
+  </p>
+  <div class="hero-cta">
+    <a href="calculator.html" class="btn btn-primary" data-i18n="calcNow">今すぐ計算する</a>
+    <a href="#howto" class="btn btn-outline" data-i18n="seeHowto">使い方を見る</a>
+  </div>
+</section>
+
+<section data-od-id="features">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-i18n="featuresTitle">3つの特長</h2>
+      <p data-i18n="featuresSub">煩雑なポイント計算表を、誰でも使えるシンプルなツールに</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-od-id="feature-1">
+        <div class="feature-num">01</div>
+        <h3 data-i18n="f1Title">3分野完全対応</h3>
+        <p data-i18n="f1Desc">高度学術研究、高度専門・技術、高度経営・管理の3分野に対応。分野切替で即座に配点が変わり、自分の分野に合った正確なスコアを算出します。</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-2">
+        <div class="feature-num">02</div>
+        <h3 data-i18n="f2Title">4言語切替</h3>
+        <p data-i18n="f2Desc">日本語、簡体中文、繁體中文、Englishに対応。トップバーのタブをクリックするだけで、すべての項目説明とナビゲーションが切り替わります。</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-3">
+        <div class="feature-num">03</div>
+        <h3 data-i18n="f3Title">リアルタイム集計</h3>
+        <p data-i18n="f3Desc">各カテゴリの小計と総合スコアがリアルタイムに更新。70点到達で合格表示。年齢に応じた年収配点表も自動で切り替わります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-od-id="howto" id="howto">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-i18n="howtoTitle">使い方</h2>
+      <p data-i18n="howtoSub">わずか4ステップでスコアがわかります</p>
+    </div>
+    <div class="howto-steps">
+      <div class="howto-step">
+        <h4 data-i18n="s1Title">分野を選ぶ</h4>
+        <p data-i18n="s1Desc">学術研究・専門技術・経営管理から該当する分野を選択</p>
+      </div>
+      <div class="howto-step">
+        <h4 data-i18n="s2Title">基本情報を入力</h4>
+        <p data-i18n="s2Desc">学歴・職歴・年齢を選択。ラジオボタンをタップするだけ</p>
+      </div>
+      <div class="howto-step">
+        <h4 data-i18n="s3Title">年収と実績を追加</h4>
+        <p data-i18n="s3Desc">年収帯を選択し、研究実績や各種ボーナス項目をチェック</p>
+      </div>
+      <div class="howto-step">
+        <h4 data-i18n="s4Title">スコアを確認</h4>
+        <p data-i18n="s4Desc">トップバーに合計スコアが表示。70点以上で合格です</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-od-id="threshold">
+  <div class="container">
+    <div class="threshold-card">
+      <div class="threshold-num">70</div>
+      <p style="font-size:18px;font-weight:500" data-i18n="thresholdMain">合計 <strong>70</strong> ポイント以上で<br>高度専門職在留資格の申請が可能です</p>
+      <p style="margin-top:16px" data-i18n="thresholdDetail">高度専門職1号（70点以上）・高度専門職2号（80点以上・1号取得後3年以上）の基準をクリアすれば、永住権申請の優遇や親の帯同など、様々な優遇措置を受けられます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-od-id="cta">
+  <div class="container">
+    <h2 data-i18n="ctaTitle">あなたのスコア、今すぐチェック</h2>
+    <p class="lead" data-i18n="ctaLead">すべてのカテゴリを入力しても3分。スマートフォンからでも簡単に使えます。</p>
+    <a href="calculator.html" class="btn btn-primary" style="font-size:16px;padding:14px 28px"><span data-i18n="ctaBtn">ポイント計算を始める</span></a>
+  </div>
+</section>
+
+<footer class="pagefoot" data-od-id="footer">
+  <p data-i18n="footerNote">本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。</p>
+  <p style="margin-top:8px">© 京阪住業株式会社</p>
+</footer>
+
+<script>
+const LANG = {
+  ja: {
+    backHome: 'ホームへ',
+    startCalc: 'ポイント計算を始める',
+    brandSuffix: '高度人材サポート',
+    heroTitle: '高度人材ポイント、30秒で自動計算',
+    heroLead: '日本の高度外国人材ポイント制に基づき、学歴・職歴・年収・年齢・研究実績・各種ボーナスを入力するだけで合計スコアを自動算出。日本語・中国語・英語に対応し、70点の合格ラインを一目で確認できます。',
+    calcNow: '今すぐ計算する',
+    seeHowto: '使い方を見る',
+    featuresTitle: '3つの特長',
+    featuresSub: '煩雑なポイント計算表を、誰でも使えるシンプルなツールに',
+    f1Title: '3分野完全対応',
+    f1Desc: '高度学術研究、高度専門・技術、高度経営・管理の3分野に対応。分野切替で即座に配点が変わり、自分の分野に合った正確なスコアを算出します。',
+    f2Title: '4言語切替',
+    f2Desc: '日本語、簡体中文、繁體中文、Englishに対応。トップバーのタブをクリックするだけで、すべての項目説明とナビゲーションが切り替わります。',
+    f3Title: 'リアルタイム集計',
+    f3Desc: '各カテゴリの小計と総合スコアがリアルタイムに更新。70点到達で合格表示。年齢に応じた年収配点表も自動で切り替わります。',
+    howtoTitle: '使い方',
+    howtoSub: 'わずか4ステップでスコアがわかります',
+    s1Title: '分野を選ぶ',
+    s1Desc: '学術研究・専門技術・経営管理から該当する分野を選択',
+    s2Title: '基本情報を入力',
+    s2Desc: '学歴・職歴・年齢を選択。ラジオボタンをタップするだけ',
+    s3Title: '年収と実績を追加',
+    s3Desc: '年収帯を選択し、研究実績や各種ボーナス項目をチェック',
+    s4Title: 'スコアを確認',
+    s4Desc: 'トップバーに合計スコアが表示。70点以上で合格です',
+    thresholdMain: '合計 <strong>70</strong> ポイント以上で<br>高度専門職在留資格の申請が可能です',
+    thresholdDetail: '高度専門職1号（70点以上）・高度専門職2号（80点以上・1号取得後3年以上）の基準をクリアすれば、永住権申請の優遇や親の帯同など、様々な優遇措置を受けられます。',
+    ctaTitle: 'あなたのスコア、今すぐチェック',
+    ctaLead: 'すべてのカテゴリを入力しても3分。スマートフォンからでも簡単に使えます。',
+    ctaBtn: 'ポイント計算を始める',
+    footerNote: '本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。'
+  },
+  'zh-CN': {
+    backHome: '返回首页',
+    startCalc: '开始积分计算',
+    brandSuffix: '高度人才支持',
+    heroTitle: '高度人才积分，30秒自动计算',
+    heroLead: '基于日本高度外国人才积分制度，只需输入学历、职历、年收入、年龄、研究业绩及各项加分，即可自动算出总分。支持日语、中文、英语，70分合格线一目了然。',
+    calcNow: '立即计算',
+    seeHowto: '查看使用方法',
+    featuresTitle: '三大特色',
+    featuresSub: '将繁琐的积分计算表，变成人人可用的简洁工具',
+    f1Title: '三大领域全覆盖',
+    f1Desc: '覆盖高度学术研究、高度专门技术、高度经营管理三大领域。切换领域即刻改变配点，精准算出符合自身领域的得分。',
+    f2Title: '四种语言切换',
+    f2Desc: '支持日语、简体中文、繁体中文、English。点击顶栏标签即可切换所有项目说明与导航语言。',
+    f3Title: '实时汇总',
+    f3Desc: '各分类小计与总分实时更新。达到70分即显示合格。年收入配点表也会根据年龄自动切换。',
+    howtoTitle: '使用方法',
+    howtoSub: '仅需4步即可查看得分',
+    s1Title: '选择领域',
+    s1Desc: '从学术研究、专门技术、经营管理中选择对应领域',
+    s2Title: '输入基本信息',
+    s2Desc: '选择学历、职历、年龄。只需点击单选按钮',
+    s3Title: '添加年收入与业绩',
+    s3Desc: '选择年收入区间，勾选研究业绩及各项加分项目',
+    s4Title: '确认得分',
+    s4Desc: '顶栏显示总分。70分以上即为合格',
+    thresholdMain: '合计 <strong>70</strong> 分以上即可<br>申请高度专业人才在留资格',
+    thresholdDetail: '达到高度专业人才1号（70分以上）及高度专业人才2号（80分以上·取得1号后3年以上）标准，即可享受永住权申请优待、父母随同等多项优惠措施。',
+    ctaTitle: '立即查看您的得分',
+    ctaLead: '即使输入所有分类也只需3分钟。手机也能轻松使用。',
+    ctaBtn: '开始积分计算',
+    footerNote: '本工具仅供参考。实际审查结果以出入国在留管理厅的判断为准。'
+  },
+  'zh-TW': {
+    backHome: '返回首頁',
+    startCalc: '開始積分計算',
+    brandSuffix: '高度人才支援',
+    heroTitle: '高度人才積分，30秒自動計算',
+    heroLead: '基於日本高度外國人才積分制度，只需輸入學歷、職歷、年收入、年齡、研究業績及各項加分，即可自動算出總分。支援日語、中文、英語，70分合格線一目瞭然。',
+    calcNow: '立即計算',
+    seeHowto: '查看使用方法',
+    featuresTitle: '三大特色',
+    featuresSub: '將繁瑣的積分計算表，變成人人可用的簡潔工具',
+    f1Title: '三大領域全覆蓋',
+    f1Desc: '覆蓋高度學術研究、高度專門技術、高度經營管理三大領域。切換領域即刻改變配點，精準算出符合自身領域的得分。',
+    f2Title: '四種語言切換',
+    f2Desc: '支援日語、簡體中文、繁體中文、English。點擊頂欄標籤即可切換所有項目說明與導覽語言。',
+    f3Title: '即時彙總',
+    f3Desc: '各分類小計與總分即時更新。達到70分即顯示合格。年收入配點表也會根據年齡自動切換。',
+    howtoTitle: '使用方法',
+    howtoSub: '僅需4步即可查看得分',
+    s1Title: '選擇領域',
+    s1Desc: '從學術研究、專門技術、經營管理中選擇對應領域',
+    s2Title: '輸入基本資訊',
+    s2Desc: '選擇學歷、職歷、年齡。只需點擊單選按鈕',
+    s3Title: '新增年收入與業績',
+    s3Desc: '選擇年收入區間，勾選研究業績及各項加分項目',
+    s4Title: '確認得分',
+    s4Desc: '頂欄顯示總分。70分以上即為合格',
+    thresholdMain: '合計 <strong>70</strong> 分以上即可<br>申請高度專業人才在留資格',
+    thresholdDetail: '達到高度專業人才1號（70分以上）及高度專業人才2號（80分以上·取得1號後3年以上）標準，即可享受永住權申請優待、父母隨同等多項優惠措施。',
+    ctaTitle: '立即查看您的得分',
+    ctaLead: '即使輸入所有分類也只需3分鐘。手機也能輕鬆使用。',
+    ctaBtn: '開始積分計算',
+    footerNote: '本工具僅供參考。實際審查結果以出入國在留管理廳的判斷為準。'
+  },
+  en: {
+    backHome: 'Home',
+    startCalc: 'Start Points Calculation',
+    brandSuffix: 'Highly Skilled Talent Support',
+    heroTitle: 'Highly Skilled Professional Points, calculated in 30 seconds',
+    heroLead: 'Based on Japan\u2019s Highly Skilled Foreign Professional points system, simply enter your education, work experience, annual income, age, research achievements, and bonus items to automatically calculate your total score. Supports Japanese, Chinese, and English, with the 70-point passing threshold visible at a glance.',
+    calcNow: 'Calculate Now',
+    seeHowto: 'See How to Use',
+    featuresTitle: '3 Key Features',
+    featuresSub: 'Turning the complex points table into a simple tool anyone can use',
+    f1Title: 'Full Coverage of 3 Fields',
+    f1Desc: 'Covers all three fields: Advanced Academic Research, Advanced Specialized/Technical, and Advanced Business Management. Switching fields instantly updates the scoring criteria for accurate results tailored to your field.',
+    f2Title: '4-Language Switching',
+    f2Desc: 'Supports Japanese, Simplified Chinese, Traditional Chinese, and English. Click the top-bar tabs to switch all item descriptions and navigation instantly.',
+    f3Title: 'Real-Time Scoring',
+    f3Desc: 'Category subtotals and the overall score update in real time. Reaching 70 points shows a pass. The income scoring table also switches automatically based on age.',
+    howtoTitle: 'How to Use',
+    howtoSub: 'See your score in just 4 steps',
+    s1Title: 'Choose Your Field',
+    s1Desc: 'Select your field from Academic Research, Specialized/Technical, or Business Management',
+    s2Title: 'Enter Basic Info',
+    s2Desc: 'Select education, work experience, and age. Just tap the radio buttons',
+    s3Title: 'Add Income & Achievements',
+    s3Desc: 'Choose your income bracket and check research achievements and bonus items',
+    s4Title: 'Check Your Score',
+    s4Desc: 'The total score appears in the top bar. 70 points or above means you qualify',
+    thresholdMain: 'With a total of <strong>70</strong> points or above,<br>you can apply for Highly Skilled Professional residency',
+    thresholdDetail: 'Meeting the criteria for Highly Skilled Professional Category 1 (70+ points) and Category 2 (80+ points, 3+ years after obtaining Category 1) unlocks preferential measures such as expedited permanent residency applications and family accompaniment.',
+    ctaTitle: 'Check your score right now',
+    ctaLead: 'It takes only 3 minutes even if you fill in every category. Works easily on your smartphone.',
+    ctaBtn: 'Start Points Calculation',
+    footerNote: 'This tool is for reference only. Actual screening results are determined by the Immigration Services Agency of Japan.'
+  }
+};
+
+const HTML_KEYS = new Set(['thresholdMain']);
+let currentLang = 'ja';
+
+function updateAllI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (HTML_KEYS.has(key)) {
+      el.innerHTML = LANG[currentLang][key];
+    } else {
+      el.textContent = LANG[currentLang][key];
+    }
+  });
+  document.documentElement.lang = currentLang === 'en' ? 'en' : currentLang;
+}
+
+function setLang(lang) {
+  if (!LANG[lang]) return;
+  currentLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  localStorage.setItem('hsp-lang', lang);
+  updateAllI18n();
+}
+
+document.getElementById('langTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.lang-tab');
+  if (!tab) return;
+  setLang(tab.dataset.lang);
+});
+
+const storedLang = localStorage.getItem('hsp-lang');
+if (storedLang && LANG[storedLang]) {
+  setLang(storedLang);
+}
+</script>
+
+</body>
+</html>

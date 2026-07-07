@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>高度人材ポイント計算表 · 京阪住業</title>
+  <style>
+    :root {
+      --navy: #112035;
+      --navy-soft: #1A2D45;
+      --navy-50: #EEF0F4;
+      --navy-100: #D6DCE5;
+      --ink: #0A0A0A;
+      --ink-soft: #1F1F1F;
+      --paper: #FFFFFF;
+      --bg: #F3F4F6;
+      --bg-warm: #EFEFEF;
+      --line: #E5E5E5;
+      --line-soft: #EFEFEF;
+      --silver: #C9CED6;
+      --silver-deep: #9EA5B0;
+      --blue: #2D49E8;
+      --blue-deep: #1F36C2;
+      --coral: #E94B3C;
+      --ok: #16A34A;
+      --warn: #D97706;
+      --font-body: 'Roboto', 'Noto Sans JP', 'Noto Sans SC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --motion: 180ms;
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      background: var(--navy);
+      color: var(--paper);
+      padding: 10px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .topbar-brand {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--silver);
+    }
+    .topbar-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--silver);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all var(--motion) var(--ease);
+      white-space: nowrap;
+    }
+    .home-btn:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: var(--paper);
+      background: rgba(255,255,255,0.06);
+    }
+    .home-btn .arrow { font-size: 13px; line-height: 1; }
+    .lang-tabs {
+      display: flex;
+      gap: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 3px;
+    }
+    .lang-tab {
+      border: 0;
+      background: transparent;
+      color: var(--silver);
+      font-family: var(--font-body);
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--motion) var(--ease);
+      white-space: nowrap;
+    }
+    .lang-tab:hover { color: var(--paper); }
+    .lang-tab.active { background: rgba(255,255,255,0.15); color: var(--paper); font-weight: 500; }
+
+    .score-sticky {
+      position: sticky; top: 51px; z-index: 90;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+    }
+    .score-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .score-label {
+      font-size: 13px;
+      color: var(--silver-deep);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .score-value {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .score-value.pass { color: var(--ok); }
+    .score-value.fail { color: var(--coral); }
+    .score-threshold {
+      font-size: 12px;
+      color: var(--silver-deep);
+    }
+    .score-threshold b { color: var(--ink); }
+
+    .field-selector {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .field-btn {
+      border: 0;
+      background: var(--paper);
+      color: var(--ink-soft);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all var(--motion) var(--ease);
+      white-space: nowrap;
+      border-right: 1px solid var(--line);
+    }
+    .field-btn:last-child { border-right: 0; }
+    .field-btn:hover { background: var(--navy-50); }
+    .field-btn.active { background: var(--navy); color: var(--paper); font-weight: 500; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    main { padding: 32px 0 80px; }
+
+    .category {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--navy-50);
+      border-bottom: 1px solid var(--line-soft);
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--motion) var(--ease);
+    }
+    .cat-header:hover { background: var(--navy-100); }
+    .cat-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .cat-subtotal {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--silver-deep);
+    }
+    .cat-subtotal.has-score { color: var(--blue); font-weight: 600; }
+    .cat-body { padding: 16px 20px; }
+
+    .option-group { margin-bottom: 14px; }
+    .option-group:last-child { margin-bottom: 0; }
+    .opt-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background var(--motion) var(--ease);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .opt-label:hover { background: var(--navy-50); }
+    .opt-label input[type="radio"],
+    .opt-label input[type="checkbox"] {
+      appearance: none;
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--silver);
+      border-radius: 3px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all var(--motion) var(--ease);
+      display: grid; place-items: center;
+    }
+    .opt-label input[type="radio"] { border-radius: 50%; }
+    .opt-label input:checked {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+    .opt-label input[type="checkbox"]:checked::after {
+      content: '';
+      width: 8px; height: 4px;
+      border: 1.5px solid var(--paper);
+      border-top: 0; border-right: 0;
+      transform: rotate(-45deg) translate(0.5px, -1px);
+    }
+    .opt-label input[type="radio"]:checked::after {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--paper);
+      border-radius: 50%;
+    }
+    .opt-label.selected {
+      background: var(--blue);
+      color: var(--paper);
+    }
+    .opt-label.selected .opt-pts { color: rgba(255,255,255,0.75); }
+    .opt-pts {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--silver-deep);
+      white-space: nowrap;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .income-grid {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, auto);
+      gap: 0;
+      font-size: 13px;
+    }
+    .income-grid .ig-h { font-weight: 500; color: var(--silver-deep); padding: 6px 10px; text-align: center; }
+    .income-grid .ig-row-label { padding: 6px 10px; font-weight: 500; }
+    .income-grid .ig-cell { text-align: center; padding: 6px 10px; }
+    .income-opt {
+      display: inline-block;
+      width: 100%;
+      padding: 4px 0;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--motion) var(--ease);
+      color: var(--silver-deep);
+    }
+    .income-opt:hover { background: var(--navy-50); color: var(--ink); }
+    .income-opt.selected { background: var(--blue); color: var(--paper); font-weight: 500; }
+    .income-opt.na { color: var(--line); cursor: default; }
+    .income-opt.na:hover { background: transparent; color: var(--line); }
+
+    .note {
+      font-size: 12px;
+      color: var(--silver-deep);
+      padding: 10px 14px;
+      margin-top: 8px;
+      background: var(--navy-50);
+      border-radius: var(--radius);
+      line-height: 1.5;
+    }
+
+    .pagefoot {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--silver-deep);
+      font-size: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 768px) {
+      .topbar-inner { flex-direction: column; align-items: flex-start; }
+      .score-inner { flex-direction: column; align-items: flex-start; }
+      .score-value { font-size: 36px; }
+      .field-btn { padding: 8px 10px; font-size: 12px; }
+      .income-grid { font-size: 11px; }
+      .income-grid .ig-h { padding: 6px 4px; }
+      .income-grid .ig-cell { padding: 6px 4px; }
+      .container { padding: 0 12px; }
+      .cat-body { padding: 12px; }
+      .cat-header { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar" data-od-id="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-brand">京阪住業 · 高度人材ポイント自動計算</span>
+    <div class="topbar-tools">
+      <a href="index.html" class="home-btn" data-od-id="home-button">
+        <span class="arrow">‹</span><span data-i18n="backHome">ホームへ</span>
+      </a>
+      <div class="lang-tabs" id="langTabs">
+        <button class="lang-tab active" data-lang="ja">日本語</button>
+        <button class="lang-tab" data-lang="zh-CN">简体中文</button>
+        <button class="lang-tab" data-lang="zh-TW">繁體中文</button>
+        <button class="lang-tab" data-lang="en">English</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="score-sticky" data-od-id="score-bar">
+  <div class="score-inner">
+    <div>
+      <div class="score-label" data-i18n="totalScore">合計ポイント</div>
+      <div class="score-value" id="totalScore">0</div>
+      <div class="score-threshold" data-i18n="threshold">合格基準: <b>70</b> ポイント</div>
+    </div>
+    <div class="field-selector" id="fieldSelector">
+      <button class="field-btn active" data-field="academic">学術研究</button>
+      <button class="field-btn" data-field="technical">専門技術</button>
+      <button class="field-btn" data-field="management">経営管理</button>
+    </div>
+  </div>
+</div>
+
+<main class="container" data-od-id="calculator-main">
+  <form id="calcForm" autocomplete="off"></form>
+</main>
+
+<footer class="pagefoot" data-od-id="footer">
+  <p>本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。</p>
+  <p>© 京阪住業株式会社</p>
+</footer>
+
+<script>
+const LANG = {
+  ja: {
+    backHome: 'ホームへ',
+    totalScore: '合計ポイント',
+    threshold: '合格基準: <b>70</b> ポイント',
+    pass: '合格圏内',
+    fail: 'あと',
+    fieldAcademic: '学術研究',
+    fieldTechnical: '専門技術',
+    fieldManagement: '経営管理',
+    catEducation: '学歴',
+    catEducationDesc: '最終学歴を選択してください',
+    catExperience: '職歴（実務経験）',
+    catExperienceDesc: '従事する業務に関連する実務経験年数',
+    catIncome: '年収',
+    catIncomeDesc: '主たる受入機関から受ける報酬の年額（賞与含む）',
+    catAge: '年齢',
+    catAgeDesc: '申請時の年齢',
+    catResearch: '研究実績',
+    catResearchDesc: '学術研究分野のみ対象',
+    catBonus: 'ボーナスポイント',
+    catBonusDesc: '該当する項目をすべて選択してください',
+    eduPhd: '博士号（専門職学位を除く）',
+    eduMaster: '修士号（専門職博士号を含む）',
+    eduBachelor: '大学卒業・同等以上の教育',
+    eduMultiDegree: '複数分野での博士・修士・専門職学位',
+    eduMBA: 'MBA/MOT（経営管理専門職学位）※経営分野のみ',
+    exp10plus: '10年以上',
+    exp7plus: '7年以上',
+    exp5plus: '5年以上',
+    exp3plus: '3年以上',
+    age29: '29歳以下',
+    age34: '34歳以下',
+    age39: '39歳以下',
+    age40plus: '40歳以上',
+    income1000: '1,000万円～',
+    income900: '900万円～',
+    income800: '800万円～',
+    income700: '700万円～',
+    income600: '600万円～',
+    income500: '500万円～',
+    income400: '400万円～',
+    income3000: '3,000万円～',
+    income2500: '2,500万円～',
+    income2000: '2,000万円～',
+    income1500: '1,500万円～',
+    income1000m: '1,000万円～',
+    resPatent: '特許発明 1件以上',
+    resGrant: '公的機関グラント研究 3件以上',
+    resPaper: '学術論文 3本以上（責任著者/筆頭著者）',
+    resOther: '同等の研究実績（個別審査）',
+    bonus1: '研究実績（学術：③参照、専門：15点）',
+    bonus2: '地位（代表取締役・代表執行役・取締役・執行役）',
+    bonus3: '職務関連の日本国家資格（1つにつき5点、最大10点）',
+    bonus4: 'イノベーション促進支援機関における就労',
+    bonus5: '試験研究費等比率3%超の中小企業における就労',
+    bonus6: '職務関連の外国資格等',
+    bonus7: '日本の高等教育機関で学位取得',
+    bonus8: '日本語能力試験N1合格／大学で日本語専攻',
+    bonus9: '日本語能力試験N2合格（⑦⑧獲得者除く）',
+    bonus10: '成長分野における先端的事業に従事',
+    bonus11: '法務大臣告示大学卒業',
+    bonus12: '法務大臣告示研修修了',
+    bonus13: '地方公共団体の高度人材受入促進支援機関で就労',
+    bonus14: '投資運用業等の業務に従事',
+    bonus15: '1億円以上の投資（経営分野のみ）',
+    noteIncomeMin: '※ 専門技術分野・経営管理分野は年収300万円以上が必須条件です',
+    noteIncomeTable: '※ 年齢区分に応じてポイント下限が異なります',
+    noteResearch: '※ 2つ以上該当する場合は25点',
+    noteBonus1: '※ 学術分野は研究実績③の合計点、専門分野は一律15点',
+    noteBonus2: '※ 経営管理分野のみ対象',
+    noteBonus3: '※ 最大2つまで（10点）',
+    noteBonus15: '※ 経営管理分野のみ対象',
+    na: '対象外',
+    disclaimer: '本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。',
+    copyright: '© 京阪住業株式会社'
+  },
+  'zh-CN': {
+    backHome: '返回首页',
+    totalScore: '合计得分',
+    threshold: '合格标准: <b>70</b> 分',
+    pass: '达到合格线',
+    fail: '还差',
+    fieldAcademic: '学术研究',
+    fieldTechnical: '专业技术',
+    fieldManagement: '经营管理',
+    catEducation: '学历',
+    catEducationDesc: '请选择最高学历',
+    catExperience: '工作经历（实务经验）',
+    catExperienceDesc: '与从事业务相关的实务经验年数',
+    catIncome: '年收入',
+    catIncomeDesc: '从主要接收机构获得的年报酬额（含奖金）',
+    catAge: '年龄',
+    catAgeDesc: '申请时的年龄',
+    catResearch: '研究实绩',
+    catResearchDesc: '仅学术研究领域适用',
+    catBonus: '附加分',
+    catBonusDesc: '请勾选所有符合条件的项目',
+    eduPhd: '博士学位（不含专业学位）',
+    eduMaster: '硕士学位（含专业博士）',
+    eduBachelor: '本科毕业或同等以上学历',
+    eduMultiDegree: '多领域持有博士、硕士或专业学位',
+    eduMBA: 'MBA/MOT（经营管理专业学位）※仅经营管理领域',
+    exp10plus: '10年以上',
+    exp7plus: '7年以上',
+    exp5plus: '5年以上',
+    exp3plus: '3年以上',
+    age29: '29岁以下',
+    age34: '34岁以下',
+    age39: '39岁以下',
+    age40plus: '40岁以上',
+    income1000: '1,000万日元～',
+    income900: '900万日元～',
+    income800: '800万日元～',
+    income700: '700万日元～',
+    income600: '600万日元～',
+    income500: '500万日元～',
+    income400: '400万日元～',
+    income3000: '3,000万日元～',
+    income2500: '2,500万日元～',
+    income2000: '2,000万日元～',
+    income1500: '1,500万日元～',
+    income1000m: '1,000万日元～',
+    resPatent: '专利发明 1件以上',
+    resGrant: '获得公共机构研究资助 3件以上',
+    resPaper: '学术论文 3篇以上（通讯作者/第一作者）',
+    resOther: '同等研究实绩（个别审查）',
+    bonus1: '研究实绩（学术：参照③、技术：15分）',
+    bonus2: '职位（董事长/执行董事/董事/执行役员）',
+    bonus3: '持有日本国家资格（每项5分，最多10分）',
+    bonus4: '在创新促进支援机构工作',
+    bonus5: '在研究费比率超3%的中小企业工作',
+    bonus6: '持有业务相关外国资格',
+    bonus7: '在日本高等教育机构取得学位',
+    bonus8: '日语能力考试N1合格／大学日语专业毕业',
+    bonus9: '日语能力考试N2合格（⑦⑧获得者除外）',
+    bonus10: '从事成长领域先端业务',
+    bonus11: '法务大臣指定大学毕业',
+    bonus12: '法务大臣指定研修修了',
+    bonus13: '在地方公共团体高度人才接收促进支援机构工作',
+    bonus14: '从事投资运用业等业务',
+    bonus15: '投资1亿日元以上（仅经营管理领域）',
+    noteIncomeMin: '※ 专业技术・经营管理领域需年收入300万日元以上',
+    noteIncomeTable: '※ 积分下限因年龄而异',
+    noteResearch: '※ 满足2项以上得25分',
+    noteBonus1: '※ 学术领域：研究实绩③合计分、技术领域：一律15分',
+    noteBonus2: '※ 仅经营管理领域适用',
+    noteBonus3: '※ 最多2项（10分）',
+    noteBonus15: '※ 仅经营管理领域适用',
+    na: '不适用',
+    disclaimer: '本工具仅供参考。实际审查结果以出入国在留管理厅判断为准。',
+    copyright: '© 京阪住業株式会社'
+  },
+  'zh-TW': {
+    backHome: '返回首頁',
+    totalScore: '合計得分',
+    threshold: '合格標準: <b>70</b> 分',
+    pass: '達到合格線',
+    fail: '還差',
+    fieldAcademic: '學術研究',
+    fieldTechnical: '專業技術',
+    fieldManagement: '經營管理',
+    catEducation: '學歷',
+    catEducationDesc: '請選擇最高學歷',
+    catExperience: '工作經歷（實務經驗）',
+    catExperienceDesc: '與從事業務相關的實務經驗年數',
+    catIncome: '年收入',
+    catIncomeDesc: '從主要接收機構獲得的年報酬額（含獎金）',
+    catAge: '年齡',
+    catAgeDesc: '申請時的年齡',
+    catResearch: '研究實績',
+    catResearchDesc: '僅學術研究領域適用',
+    catBonus: '附加分',
+    catBonusDesc: '請勾選所有符合條件的項目',
+    eduPhd: '博士學位（不含專業學位）',
+    eduMaster: '碩士學位（含專業博士）',
+    eduBachelor: '本科畢業或同等以上學歷',
+    eduMultiDegree: '多領域持有博士、碩士或專業學位',
+    eduMBA: 'MBA/MOT（經營管理專業學位）※僅經營管理領域',
+    exp10plus: '10年以上',
+    exp7plus: '7年以上',
+    exp5plus: '5年以上',
+    exp3plus: '3年以上',
+    age29: '29歲以下',
+    age34: '34歲以下',
+    age39: '39歲以下',
+    age40plus: '40歲以上',
+    income1000: '1,000萬日圓～',
+    income900: '900萬日圓～',
+    income800: '800萬日圓～',
+    income700: '700萬日圓～',
+    income600: '600萬日圓～',
+    income500: '500萬日圓～',
+    income400: '400萬日圓～',
+    income3000: '3,000萬日圓～',
+    income2500: '2,500萬日圓～',
+    income2000: '2,000萬日圓～',
+    income1500: '1,500萬日圓～',
+    income1000m: '1,000萬日圓～',
+    resPatent: '專利發明 1件以上',
+    resGrant: '獲得公共機構研究資助 3件以上',
+    resPaper: '學術論文 3篇以上（通訊作者/第一作者）',
+    resOther: '同等研究實績（個別審查）',
+    bonus1: '研究實績（學術：參照③、技術：15分）',
+    bonus2: '職位（董事長/執行董事/董事/執行役員）',
+    bonus3: '持有日本國家資格（每項5分，最多10分）',
+    bonus4: '在創新促進支援機構工作',
+    bonus5: '在研究費比率超3%的中小企業工作',
+    bonus6: '持有業務相關外國資格',
+    bonus7: '在日本高等教育機構取得學位',
+    bonus8: '日語能力考試N1合格／大學日語專業畢業',
+    bonus9: '日語能力考試N2合格（⑦⑧獲得者除外）',
+    bonus10: '從事成長領域先端業務',
+    bonus11: '法務大臣指定大學畢業',
+    bonus12: '法務大臣指定研修修了',
+    bonus13: '在地方公共團體高度人才接收促進支援機構工作',
+    bonus14: '從事投資運用業等業務',
+    bonus15: '投資1億日圓以上（僅經營管理領域）',
+    noteIncomeMin: '※ 專業技術・經營管理領域需年收入300萬日圓以上',
+    noteIncomeTable: '※ 積分下限因年齡而異',
+    noteResearch: '※ 滿足2項以上得25分',
+    noteBonus1: '※ 學術領域：研究實績③合計分、技術領域：一律15分',
+    noteBonus2: '※ 僅經營管理領域適用',
+    noteBonus3: '※ 最多2項（10分）',
+    noteBonus15: '※ 僅經營管理領域適用',
+    na: '不適用',
+    disclaimer: '本工具僅供參考。實際審查結果以出入國在留管理廳判斷為準。',
+    copyright: '© 京阪住業株式會社'
+  },
+  en: {
+    backHome: 'Home',
+    totalScore: 'Total Points',
+    threshold: 'Passing threshold: <b>70</b> points',
+    pass: 'Qualifying',
+    fail: 'Need',
+    fieldAcademic: 'Academic Research',
+    fieldTechnical: 'Specialized/Technical',
+    fieldManagement: 'Business Management',
+    catEducation: 'Education',
+    catEducationDesc: 'Select your highest degree',
+    catExperience: 'Work Experience',
+    catExperienceDesc: 'Years of relevant professional experience',
+    catIncome: 'Annual Income',
+    catIncomeDesc: 'Annual salary from primary employer (including bonuses)',
+    catAge: 'Age',
+    catAgeDesc: 'Age at time of application',
+    catResearch: 'Research Achievements',
+    catResearchDesc: 'For Academic Research field only',
+    catBonus: 'Bonus Points',
+    catBonusDesc: 'Select all that apply',
+    eduPhd: 'Doctoral degree (excl. professional degrees)',
+    eduMaster: "Master's degree (incl. professional doctoral degrees)",
+    eduBachelor: "Bachelor's degree or equivalent",
+    eduMultiDegree: 'Multiple degrees across different fields',
+    eduMBA: 'MBA/MOT (professional degree in business management)',
+    exp10plus: '10+ years',
+    exp7plus: '7+ years',
+    exp5plus: '5+ years',
+    exp3plus: '3+ years',
+    age29: '29 or younger',
+    age34: '34 or younger',
+    age39: '39 or younger',
+    age40plus: '40 or older',
+    income1000: '¥10M+',
+    income900: '¥9M+',
+    income800: '¥8M+',
+    income700: '¥7M+',
+    income600: '¥6M+',
+    income500: '¥5M+',
+    income400: '¥4M+',
+    income3000: '¥30M+',
+    income2500: '¥25M+',
+    income2000: '¥20M+',
+    income1500: '¥15M+',
+    income1000m: '¥10M+',
+    resPatent: 'Patented invention(s)',
+    resGrant: 'Government-funded research (3+ projects)',
+    resPaper: 'Academic papers (3+, corresponding/first author)',
+    resOther: 'Equivalent research achievements (case-by-case)',
+    bonus1: 'Research achievements (Academic: see ③, Technical: 15 pts)',
+    bonus2: 'Executive position (CEO / Director / Executive Officer)',
+    bonus3: 'Japanese national qualification (5 pts each, max 10)',
+    bonus4: 'Employment at innovation support organization',
+    bonus5: 'Employment at SME with R&D ratio >3%',
+    bonus6: 'Foreign qualification related to duties',
+    bonus7: 'Degree from Japanese higher education institution',
+    bonus8: 'JLPT N1 passed / Japanese major at university',
+    bonus9: 'JLPT N2 passed (excluding ⑦⑧ holders)',
+    bonus10: 'Employment in advanced growth sector business',
+    bonus11: 'Graduated from Minister-designated university',
+    bonus12: 'Completed Minister-designated training',
+    bonus13: 'Employment at local govt. support organization',
+    bonus14: 'Engaged in investment management business',
+    bonus15: 'Investment of ¥100M+ in business (Management only)',
+    noteIncomeMin: '※ Technical & Management fields require ¥3M+ annual income',
+    noteIncomeTable: '※ Point thresholds vary by age bracket',
+    noteResearch: '※ 25 pts if 2+ items are met',
+    noteBonus1: '※ Academic: total of ③ research pts, Technical: flat 15 pts',
+    noteBonus2: '※ Management field only',
+    noteBonus3: '※ Max 2 items (10 pts)',
+    noteBonus15: '※ Management field only',
+    na: 'N/A',
+    disclaimer: 'This tool is for reference only. Final evaluation is subject to the Immigration Services Agency.',
+    copyright: '© Keihan Jūgyō Co., Ltd.'
+  }
+};
+
+const SCORING = {
+  academic: {
+    education: {
+      phd: 30, master: 20, bachelor: 10
+    },
+    experience: {
+      exp10: 20, exp7: 15, exp5: 10, exp3: 5
+    },
+    incomeYoung: [10,15,20,25,30,35,40],
+    incomeMature: [0,0,10,15,20,25,30,35,40],
+    incomeLevels: [400,500,600,700,800,900,1000],
+    age: [15,10,5,0]
+  },
+  technical: {
+    education: {
+      phd: 30, master: 20, bachelor: 10
+    },
+    experience: {
+      exp10: 20, exp7: 15, exp5: 10, exp3: 5
+    },
+    incomeYoung: [10,15,20,25,30,35,40],
+    incomeMature: [[0,10,15,20,25,30,35,40],[0,0,10,15,20,25,30,35,40],[0,0,10,15,20,25,30,35,40],[0,0,0,10,15,20,25,30,35,40]],
+    incomeLevels: [400,500,600,700,800,900,1000],
+    age: [15,10,5,0]
+  },
+  management: {
+    education: {
+      phd: 20, master: 20, bachelor: 10
+    },
+    experience: {
+      exp10: 25, exp7: 20, exp5: 15, exp3: 10
+    },
+    income: [10,20,30,40,50],
+    incomeLevels: [1000,1500,2000,2500,3000],
+    age: [15,10,5,0]
+  }
+};
+
+const INCOME_THRESHOLDS = {
+  academic: [
+    [400,500,600,700,800,900,1000],
+    [400,500,600,700,800,900,1000],
+    [600,700,800,900,1000],
+    [800,900,1000]
+  ],
+  technical: [
+    [400,500,600,700,800,900,1000],
+    [400,500,600,700,800,900,1000],
+    [600,700,800,900,1000],
+    [800,900,1000]
+  ]
+};
+
+const INCOME_POINTS = {
+  academic: [
+    [10,15,20,25,30,35,40],
+    [10,15,20,25,30,35,40],
+    [20,25,30,35,40],
+    [30,35,40]
+  ],
+  technical: [
+    [10,15,20,25,30,35,40],
+    [10,15,20,25,30,35,40],
+    [20,25,30,35,40],
+    [30,35,40]
+  ]
+};
+
+let currentLang = 'ja';
+let currentField = 'academic';
+let selectedAge = -1;
+let selectedIncome = -1;
+
+function t(key) { return LANG[currentLang][key] || key; }
+
+function updateAllI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (key === 'threshold' || key === 'pass' || key === 'fail') {
+      el.innerHTML = LANG[currentLang][key];
+    } else {
+      el.textContent = LANG[currentLang][key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = LANG[currentLang][el.dataset.i18nTitle];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = LANG[currentLang][el.dataset.i18nPlaceholder];
+  });
+  renderAll();
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  updateAllI18n();
+}
+
+function setField(field) {
+  currentField = field;
+  document.querySelectorAll('.field-btn').forEach(b => b.classList.toggle('active', b.dataset.field === field));
+  selectedAge = -1;
+  selectedIncome = -1;
+  renderAll();
+}
+
+function buildEducationHTML(field) {
+  const s = SCORING[field];
+  return `
+    <div class="option-group">
+      <label class="opt-label">
+        <input type="radio" name="education" value="phd" onchange="recalc()">
+        <span>${t('eduPhd')}</span>
+        <span class="opt-pts">+${s.education.phd}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="education" value="master" onchange="recalc()">
+        <span>${t('eduMaster')}</span>
+        <span class="opt-pts">+${s.education.master}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="education" value="bachelor" onchange="recalc()">
+        <span>${t('eduBachelor')}</span>
+        <span class="opt-pts">+${s.education.bachelor}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="checkbox" name="eduMulti" onchange="recalc()">
+        <span>${t('eduMultiDegree')}</span>
+        <span class="opt-pts">+5pt</span>
+      </label>
+      ${field === 'management' ? `
+      <label class="opt-label">
+        <input type="checkbox" name="eduMBA" onchange="recalc()">
+        <span>${t('eduMBA')}</span>
+        <span class="opt-pts">+5pt</span>
+      </label>` : ''}
+    </div>`;
+}
+
+function buildExperienceHTML(field) {
+  const s = SCORING[field];
+  return `
+    <div class="option-group">
+      <label class="opt-label">
+        <input type="radio" name="experience" value="exp10" onchange="recalc()">
+        <span>${t('exp10plus')}</span>
+        <span class="opt-pts">+${s.experience.exp10}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="experience" value="exp7" onchange="recalc()">
+        <span>${t('exp7plus')}</span>
+        <span class="opt-pts">+${s.experience.exp7}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="experience" value="exp5" onchange="recalc()">
+        <span>${t('exp5plus')}</span>
+        <span class="opt-pts">+${s.experience.exp5}pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="experience" value="exp3" onchange="recalc()">
+        <span>${t('exp3plus')}</span>
+        <span class="opt-pts">+${s.experience.exp3}pt</span>
+      </label>
+    </div>`;
+}
+
+function buildAgeHTML() {
+  return `
+    <div class="option-group">
+      <label class="opt-label">
+        <input type="radio" name="age" value="0" onchange="selectAge(0)">
+        <span>${t('age29')}</span>
+        <span class="opt-pts">+15pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="age" value="1" onchange="selectAge(1)">
+        <span>${t('age34')}</span>
+        <span class="opt-pts">+10pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="age" value="2" onchange="selectAge(2)">
+        <span>${t('age39')}</span>
+        <span class="opt-pts">+5pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="age" value="3" onchange="selectAge(3)">
+        <span>${t('age40plus')}</span>
+        <span class="opt-pts">+0pt</span>
+      </label>
+    </div>`;
+}
+
+function selectAge(idx) {
+  selectedAge = idx;
+  selectedIncome = -1;
+  recalc();
+}
+
+function buildIncomeHTML(field, ageIdx) {
+  if (field === 'management') {
+    const levels = SCORING.management.incomeLevels;
+    const pts = SCORING.management.income;
+    const labels = ['income1000m','income1500','income2000','income2500','income3000'];
+    return `<div class="option-group">
+      ${[4,3,2,1,0].map(i => `
+      <label class="opt-label">
+        <input type="radio" name="income" value="${i}" onchange="selectIncome(${i})">
+        <span>${t(labels[i])}</span>
+        <span class="opt-pts">+${pts[i]}pt</span>
+      </label>`).join('')}
+    </div>
+    <div class="note">${t('noteIncomeMin')}</div>`;
+  }
+
+  if (ageIdx < 0) return `<div class="note">${t('noteIncomeTable')}</div>`;
+
+  const thresholds = INCOME_THRESHOLDS[field][ageIdx];
+  const points = INCOME_POINTS[field][ageIdx];
+
+  let html = '<div class="option-group">';
+  for (let i = thresholds.length - 1; i >= 0; i--) {
+    const val = thresholds[i];
+    const display = val >= 1000 ? (val / 10000) + '千万円～' : val + '万円～';
+    html += `
+    <label class="opt-label">
+      <input type="radio" name="income" value="${i}" onchange="selectIncome(${i})">
+      <span>${display}</span>
+      <span class="opt-pts">+${points[i]}pt</span>
+    </label>`;
+  }
+  html += '</div>';
+  html += `<div class="note">${t('noteIncomeMin')}</div>`;
+  return html;
+}
+
+function selectIncome(idx) {
+  selectedIncome = idx;
+  recalc();
+}
+
+function buildResearchHTML(field) {
+  if (field !== 'academic') {
+    return `<div class="note">${t('catResearchDesc')} — ${t('na')}</div>`;
+  }
+  return `
+    <div class="option-group">
+      <label class="opt-label">
+        <input type="checkbox" name="resPatent" onchange="recalc()">
+        <span>${t('resPatent')}</span>
+        <span class="opt-pts">+20pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="checkbox" name="resGrant" onchange="recalc()">
+        <span>${t('resGrant')}</span>
+        <span class="opt-pts">+20pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="checkbox" name="resPaper" onchange="recalc()">
+        <span>${t('resPaper')}</span>
+        <span class="opt-pts">+20pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="checkbox" name="resOther" onchange="recalc()">
+        <span>${t('resOther')}</span>
+        <span class="opt-pts">?</span>
+      </label>
+    </div>
+    <div class="note">${t('noteResearch')}</div>`;
+}
+
+function buildBonusHTML(field) {
+  const bonuses = [
+    { id: 'bonus1', key: 'bonus1', pts: field === 'academic' ? 0 : 15, note: field === 'academic' ? 'noteBonus1' : null, na: false },
+    { id: 'bonus2', key: 'bonus2', pts: 10, note: 'noteBonus2', na: field !== 'management' },
+    { id: 'bonus3', key: 'bonus3', pts: 5, note: 'noteBonus3', na: false, max: 10 },
+    { id: 'bonus4', key: 'bonus4', pts: 10, na: false },
+    { id: 'bonus5', key: 'bonus5', pts: 5, na: false },
+    { id: 'bonus6', key: 'bonus6', pts: 5, na: false },
+    { id: 'bonus7', key: 'bonus7', pts: 10, na: false },
+    { id: 'bonus8', key: 'bonus8', pts: 15, na: false },
+    { id: 'bonus9', key: 'bonus9', pts: 10, na: false },
+    { id: 'bonus10', key: 'bonus10', pts: 10, na: false },
+    { id: 'bonus11', key: 'bonus11', pts: 10, na: false },
+    { id: 'bonus12', key: 'bonus12', pts: 5, na: false },
+    { id: 'bonus13', key: 'bonus13', pts: 10, na: false },
+    { id: 'bonus14', key: 'bonus14', pts: 10, na: false },
+    { id: 'bonus15', key: 'bonus15', pts: 5, note: 'noteBonus15', na: field !== 'management' }
+  ];
+
+  return bonuses.map((b, i) => {
+    if (b.na) return `<div class="note" style="margin-bottom:8px">ボーナス${String.fromCharCode(9312 + i)}: ${t(b.key)} — ${t(b.note || 'noteBonus2')}</div>`;
+    const displayId = `bonus${i + 1}`;
+    const onClick = b.id === 'bonus3' ? 'onchange="recalcBonus3()"' : 'onchange="recalc()"';
+    return `
+    <div class="option-group" style="margin-bottom:4px">
+      <label class="opt-label">
+        <input type="checkbox" name="${b.id}" ${onClick}>
+        <span>${String.fromCharCode(9312 + i)} ${t(b.key)}</span>
+        <span class="opt-pts">+${b.pts}pt</span>
+      </label>
+      ${b.note ? `<div class="note" style="margin:4px 0 0 28px; padding:4px 10px">${t(b.note)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function recalcBonus3() {
+  const cbs = document.querySelectorAll('input[name="bonus3"]');
+  let checked = 0;
+  cbs.forEach(cb => { if (cb.checked) checked++; });
+  if (checked > 2) {
+    cbs.forEach(cb => { if (!cb.checked && checked > 2) { cb.disabled = true; checked--; } });
+  } else {
+    cbs.forEach(cb => { cb.disabled = false; });
+  }
+  recalc();
+}
+
+function calculateScore() {
+  let total = 0;
+  const field = currentField;
+
+  const eduVal = document.querySelector('input[name="education"]:checked')?.value;
+  if (eduVal) total += SCORING[field].education[eduVal] || 0;
+  if (document.querySelector('input[name="eduMulti"]')?.checked) total += 5;
+  if (field === 'management' && document.querySelector('input[name="eduMBA"]')?.checked) total += 5;
+
+  const expVal = document.querySelector('input[name="experience"]:checked')?.value;
+  if (expVal) total += SCORING[field].experience[expVal] || 0;
+
+  const ageVal = document.querySelector('input[name="age"]:checked')?.value;
+  if (ageVal !== undefined && ageVal !== null && ageVal !== '') {
+    const ageScore = SCORING[field].age[parseInt(ageVal)] || 0;
+    total += ageScore;
+  }
+
+  if (selectedIncome >= 0) {
+    if (field === 'management') {
+      total += SCORING.management.income[selectedIncome] || 0;
+    } else if (selectedAge >= 0) {
+      total += INCOME_POINTS[field][selectedAge][selectedIncome] || 0;
+    }
+  }
+
+  if (field === 'academic') {
+    const resCount = [
+      document.querySelector('input[name="resPatent"]')?.checked,
+      document.querySelector('input[name="resGrant"]')?.checked,
+      document.querySelector('input[name="resPaper"]')?.checked
+    ].filter(Boolean).length;
+    if (resCount >= 2) {
+      total += 25;
+    } else {
+      if (document.querySelector('input[name="resPatent"]')?.checked) total += 20;
+      if (document.querySelector('input[name="resGrant"]')?.checked) total += 20;
+      if (document.querySelector('input[name="resPaper"]')?.checked) total += 20;
+    }
+  }
+
+  const bonusPoints = {
+    bonus1: field === 'academic' ? 0 : 15,
+    bonus2: 10,
+    bonus3: 5,
+    bonus4: 10,
+    bonus5: 5,
+    bonus6: 5,
+    bonus7: 10,
+    bonus8: 15,
+    bonus9: 10,
+    bonus10: 10,
+    bonus11: 10,
+    bonus12: 5,
+    bonus13: 10,
+    bonus14: 10,
+    bonus15: 5
+  };
+
+  for (const [bid, pts] of Object.entries(bonusPoints)) {
+    const cb = document.querySelector(`input[name="${bid}"]`);
+    if (cb && cb.checked) {
+      if (bid === 'bonus1' && field === 'academic') continue;
+      if (bid === 'bonus2' && field !== 'management') continue;
+      if (bid === 'bonus15' && field !== 'management') continue;
+      total += pts;
+    }
+  }
+
+  return total;
+}
+
+function recalc() {
+  const total = calculateScore();
+  const el = document.getElementById('totalScore');
+  el.textContent = total;
+  el.className = 'score-value';
+  if (total >= 70) el.classList.add('pass');
+  else if (total > 0) el.classList.add('fail');
+
+  const threshEl = document.querySelector('.score-threshold');
+  if (total >= 70) {
+    threshEl.innerHTML = LANG[currentLang].pass + ' ✓';
+    threshEl.style.color = 'var(--ok)';
+  } else if (total > 0) {
+    threshEl.innerHTML = `${LANG[currentLang].fail} ${70 - total} pt`;
+    threshEl.style.color = 'var(--coral)';
+  } else {
+    threshEl.innerHTML = LANG[currentLang].threshold;
+    threshEl.style.color = 'var(--silver-deep)';
+  }
+
+  updateSubtotals();
+}
+
+function getSubtotals() {
+  const field = currentField;
+  let eduTotal = 0, expTotal = 0, incomeTotal = 0, ageTotal = 0, researchTotal = 0, bonusTotal = 0;
+
+  const eduVal = document.querySelector('input[name="education"]:checked')?.value;
+  if (eduVal) eduTotal += SCORING[field].education[eduVal] || 0;
+  if (document.querySelector('input[name="eduMulti"]')?.checked) eduTotal += 5;
+  if (field === 'management' && document.querySelector('input[name="eduMBA"]')?.checked) eduTotal += 5;
+
+  const expVal = document.querySelector('input[name="experience"]:checked')?.value;
+  if (expVal) expTotal += SCORING[field].experience[expVal] || 0;
+
+  if (selectedIncome >= 0) {
+    if (field === 'management') incomeTotal += SCORING.management.income[selectedIncome] || 0;
+    else if (selectedAge >= 0) incomeTotal += INCOME_POINTS[field][selectedAge][selectedIncome] || 0;
+  }
+
+  const ageVal = document.querySelector('input[name="age"]:checked')?.value;
+  if (ageVal !== undefined && ageVal !== null && ageVal !== '') {
+    ageTotal += SCORING[field].age[parseInt(ageVal)] || 0;
+  }
+
+  if (field === 'academic') {
+    const resCount = [
+      document.querySelector('input[name="resPatent"]')?.checked,
+      document.querySelector('input[name="resGrant"]')?.checked,
+      document.querySelector('input[name="resPaper"]')?.checked
+    ].filter(Boolean).length;
+    if (resCount >= 2) {
+      researchTotal = 25;
+    } else {
+      if (document.querySelector('input[name="resPatent"]')?.checked) researchTotal += 20;
+      if (document.querySelector('input[name="resGrant"]')?.checked) researchTotal += 20;
+      if (document.querySelector('input[name="resPaper"]')?.checked) researchTotal += 20;
+    }
+  }
+
+  const bonusPoints = {
+    bonus1: field === 'academic' ? 0 : 15,
+    bonus2: 10, bonus3: 5, bonus4: 10, bonus5: 5, bonus6: 5, bonus7: 10,
+    bonus8: 15, bonus9: 10, bonus10: 10, bonus11: 10, bonus12: 5,
+    bonus13: 10, bonus14: 10, bonus15: 5
+  };
+  for (const [bid, pts] of Object.entries(bonusPoints)) {
+    const cb = document.querySelector(`input[name="${bid}"]`);
+    if (!cb || !cb.checked) continue;
+    if (bid === 'bonus1' && field === 'academic') continue;
+    if (bid === 'bonus2' && field !== 'management') continue;
+    if (bid === 'bonus15' && field !== 'management') continue;
+    bonusTotal += pts;
+  }
+
+  return { eduTotal, expTotal, incomeTotal, ageTotal, researchTotal, bonusTotal };
+}
+
+function updateSubtotals() {
+  const subs = getSubtotals();
+  updateSub('sub-edu', subs.eduTotal);
+  updateSub('sub-exp', subs.expTotal);
+  updateSub('sub-income', subs.incomeTotal);
+  updateSub('sub-age', subs.ageTotal);
+  updateSub('sub-research', subs.researchTotal);
+  updateSub('sub-bonus', subs.bonusTotal);
+}
+
+function updateSub(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = val > 0 ? `+${val}pt` : '0pt';
+  el.className = val > 0 ? 'cat-subtotal has-score' : 'cat-subtotal';
+}
+
+function toggleCategory(header) {
+  const body = header.nextElementSibling;
+  if (!body) return;
+  body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+function renderAll() {
+  const field = currentField;
+  const form = document.getElementById('calcForm');
+
+  form.innerHTML = `
+    <div class="category" data-od-id="cat-education">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catEducation')}</span>
+        <span class="cat-subtotal" id="sub-edu">0pt</span>
+      </div>
+      <div class="cat-body">
+        <p style="margin:0 0 12px; font-size:13px; color:var(--silver-deep)">${t('catEducationDesc')}</p>
+        ${buildEducationHTML(field)}
+      </div>
+    </div>
+
+    <div class="category" data-od-id="cat-experience">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catExperience')}</span>
+        <span class="cat-subtotal" id="sub-exp">0pt</span>
+      </div>
+      <div class="cat-body">
+        <p style="margin:0 0 12px; font-size:13px; color:var(--silver-deep)">${t('catExperienceDesc')}</p>
+        ${buildExperienceHTML(field)}
+      </div>
+    </div>
+
+    <div class="category" data-od-id="cat-age">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catAge')}</span>
+        <span class="cat-subtotal" id="sub-age">0pt</span>
+      </div>
+      <div class="cat-body">
+        <p style="margin:0 0 12px; font-size:13px; color:var(--silver-deep)">${t('catAgeDesc')}</p>
+        ${buildAgeHTML()}
+      </div>
+    </div>
+
+    <div class="category" data-od-id="cat-income">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catIncome')}</span>
+        <span class="cat-subtotal" id="sub-income">0pt</span>
+      </div>
+      <div class="cat-body">
+        <p style="margin:0 0 12px; font-size:13px; color:var(--silver-deep)">${t('catIncomeDesc')}</p>
+        ${buildIncomeHTML(field, selectedAge)}
+      </div>
+    </div>
+
+    <div class="category" data-od-id="cat-research">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catResearch')}</span>
+        <span class="cat-subtotal" id="sub-research">0pt</span>
+      </div>
+      <div class="cat-body">
+        ${buildResearchHTML(field)}
+      </div>
+    </div>
+
+    <div class="category" data-od-id="cat-bonus">
+      <div class="cat-header" onclick="toggleCategory(this)">
+        <span class="cat-title">${t('catBonus')}</span>
+        <span class="cat-subtotal" id="sub-bonus">0pt</span>
+      </div>
+      <div class="cat-body">
+        <p style="margin:0 0 12px; font-size:13px; color:var(--silver-deep)">${t('catBonusDesc')}</p>
+        ${buildBonusHTML(field)}
+      </div>
+    </div>
+  `;
+
+  recalc();
+}
+
+document.getElementById('langTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.lang-tab');
+  if (!tab) return;
+  setLang(tab.dataset.lang);
+});
+
+document.getElementById('fieldSelector').addEventListener('click', e => {
+  const btn = e.target.closest('.field-btn');
+  if (!btn) return;
+  setField(btn.dataset.field);
+});
+
+renderAll();
+
+document.getElementById('calcForm').addEventListener('change', function(e) {
+  const tgt = e.target;
+  if (tgt.name === 'education' || tgt.name === 'experience' || tgt.name === 'age') {
+    const parent = tgt.closest('.opt-label');
+    if (parent) {
+      document.querySelectorAll(`input[name="${tgt.name}"]`).forEach(inp => {
+        inp.closest('.opt-label')?.classList.remove('selected');
+      });
+      parent.classList.add('selected');
+    }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const storedLang = localStorage.getItem('hsp-lang');
+  if (storedLang && LANG[storedLang]) {
+    currentLang = storedLang;
+    document.querySelectorAll('.lang-tab').forEach(b => b.classList.toggle('active', b.dataset.lang === storedLang));
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (key === 'threshold') el.innerHTML = LANG[currentLang][key];
+      else el.textContent = LANG[currentLang][key];
+    });
+    renderAll();
+  }
+});
+
+document.getElementById('langTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.lang-tab');
+  if (!tab) return;
+  localStorage.setItem('hsp-lang', tab.dataset.lang);
+});
+</script>
+
+</body>
+</html>
