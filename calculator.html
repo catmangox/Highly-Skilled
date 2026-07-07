@@ -399,7 +399,7 @@ const LANG = {
     eduMaster: '修士号（専門職博士号を含む）',
     eduBachelor: '大学卒業・同等以上の教育',
     eduMultiDegree: '複数分野での博士・修士・専門職学位',
-    eduMBA: 'MBA/MOT（経営管理専門職学位）※経営分野のみ',
+    eduMBA: 'MBA/MOT（経営管理専門職学位）',
     exp10plus: '10年以上',
     exp7plus: '7年以上',
     exp5plus: '5年以上',
@@ -446,6 +446,13 @@ const LANG = {
     noteBonus2: '※ 経営管理分野のみ対象',
     noteBonus3: '※ 最大2つまで（10点）',
     noteBonus15: '※ 経営管理分野のみ対象',
+    noteBonus1Na: '※ 学術研究・専門技術分野のみ対象',
+    noteBonus3Na: '※ 専門技術分野のみ対象',
+    noteBonus14Na: '※ 専門技術・経営管理分野のみ対象',
+    bonus2Rep: '地位：代表取締役・代表執行役',
+    bonus2Officer: '地位：取締役・執行役',
+    bonus4b: 'イノベーション促進支援機関における就労（中小企業）',
+    noteBonus4b: '※ ④に該当し、かつ中小企業の場合に加点',
     na: '対象外',
     disclaimer: '本ツールは参考用です。実際の審査結果は出入国在留管理庁の判断によります。',
     copyright: '© 京阪住業株式会社'
@@ -475,7 +482,7 @@ const LANG = {
     eduMaster: '硕士学位（含专业博士）',
     eduBachelor: '本科毕业或同等以上学历',
     eduMultiDegree: '多领域持有博士、硕士或专业学位',
-    eduMBA: 'MBA/MOT（经营管理专业学位）※仅经营管理领域',
+    eduMBA: 'MBA/MOT（经营管理专业学位）',
     exp10plus: '10年以上',
     exp7plus: '7年以上',
     exp5plus: '5年以上',
@@ -522,6 +529,13 @@ const LANG = {
     noteBonus2: '※ 仅经营管理领域适用',
     noteBonus3: '※ 最多2项（10分）',
     noteBonus15: '※ 仅经营管理领域适用',
+    noteBonus1Na: '※ 仅学术研究・专业技术领域适用',
+    noteBonus3Na: '※ 仅专业技术领域适用',
+    noteBonus14Na: '※ 仅专业技术・经营管理领域适用',
+    bonus2Rep: '职位：董事长・代表执行役',
+    bonus2Officer: '职位：董事・执行役员',
+    bonus4b: '在创新促进支援机构工作（中小企业）',
+    noteBonus4b: '※ 符合④且为中小企业时加分',
     na: '不适用',
     disclaimer: '本工具仅供参考。实际审查结果以出入国在留管理厅判断为准。',
     copyright: '© 京阪住業株式会社'
@@ -551,7 +565,7 @@ const LANG = {
     eduMaster: '碩士學位（含專業博士）',
     eduBachelor: '本科畢業或同等以上學歷',
     eduMultiDegree: '多領域持有博士、碩士或專業學位',
-    eduMBA: 'MBA/MOT（經營管理專業學位）※僅經營管理領域',
+    eduMBA: 'MBA/MOT（經營管理專業學位）',
     exp10plus: '10年以上',
     exp7plus: '7年以上',
     exp5plus: '5年以上',
@@ -598,6 +612,13 @@ const LANG = {
     noteBonus2: '※ 僅經營管理領域適用',
     noteBonus3: '※ 最多2項（10分）',
     noteBonus15: '※ 僅經營管理領域適用',
+    noteBonus1Na: '※ 僅學術研究・專業技術領域適用',
+    noteBonus3Na: '※ 僅專業技術領域適用',
+    noteBonus14Na: '※ 僅專業技術・經營管理領域適用',
+    bonus2Rep: '職位：董事長・代表執行役',
+    bonus2Officer: '職位：董事・執行役員',
+    bonus4b: '在創新促進支援機構工作（中小企業）',
+    noteBonus4b: '※ 符合④且為中小企業時加分',
     na: '不適用',
     disclaimer: '本工具僅供參考。實際審查結果以出入國在留管理廳判斷為準。',
     copyright: '© 京阪住業株式會社'
@@ -674,6 +695,13 @@ const LANG = {
     noteBonus2: '※ Management field only',
     noteBonus3: '※ Max 2 items (10 pts)',
     noteBonus15: '※ Management field only',
+    noteBonus1Na: '※ Academic & Technical fields only',
+    noteBonus3Na: '※ Technical field only',
+    noteBonus14Na: '※ Technical & Management fields only',
+    bonus2Rep: 'Position: Representative Director / Representative Executive Officer',
+    bonus2Officer: 'Position: Director / Executive Officer',
+    bonus4b: 'Employment at innovation support organization (SME)',
+    noteBonus4b: '※ Additional points if ④ applies and the org is an SME',
     na: 'N/A',
     disclaimer: 'This tool is for reference only. Final evaluation is subject to the Immigration Services Agency.',
     copyright: '© Keihan Jūgyō Co., Ltd.'
@@ -688,26 +716,20 @@ const SCORING = {
     experience: {
       exp10: 20, exp7: 15, exp5: 10, exp3: 5
     },
-    incomeYoung: [10,15,20,25,30,35,40],
-    incomeMature: [0,0,10,15,20,25,30,35,40],
-    incomeLevels: [400,500,600,700,800,900,1000],
     age: [15,10,5,0]
   },
   technical: {
     education: {
-      phd: 30, master: 20, bachelor: 10
+      phd: 30, mba: 25, master: 20, bachelor: 10
     },
     experience: {
       exp10: 20, exp7: 15, exp5: 10, exp3: 5
     },
-    incomeYoung: [10,15,20,25,30,35,40],
-    incomeMature: [[0,10,15,20,25,30,35,40],[0,0,10,15,20,25,30,35,40],[0,0,10,15,20,25,30,35,40],[0,0,0,10,15,20,25,30,35,40]],
-    incomeLevels: [400,500,600,700,800,900,1000],
     age: [15,10,5,0]
   },
   management: {
     education: {
-      phd: 20, master: 20, bachelor: 10
+      mba: 25, phd: 20, master: 20, bachelor: 10
     },
     experience: {
       exp10: 25, exp7: 20, exp5: 15, exp3: 10
@@ -721,13 +743,13 @@ const SCORING = {
 const INCOME_THRESHOLDS = {
   academic: [
     [400,500,600,700,800,900,1000],
-    [400,500,600,700,800,900,1000],
+    [500,600,700,800,900,1000],
     [600,700,800,900,1000],
     [800,900,1000]
   ],
   technical: [
     [400,500,600,700,800,900,1000],
-    [400,500,600,700,800,900,1000],
+    [500,600,700,800,900,1000],
     [600,700,800,900,1000],
     [800,900,1000]
   ]
@@ -736,13 +758,13 @@ const INCOME_THRESHOLDS = {
 const INCOME_POINTS = {
   academic: [
     [10,15,20,25,30,35,40],
-    [10,15,20,25,30,35,40],
+    [15,20,25,30,35,40],
     [20,25,30,35,40],
     [30,35,40]
   ],
   technical: [
     [10,15,20,25,30,35,40],
-    [10,15,20,25,30,35,40],
+    [15,20,25,30,35,40],
     [20,25,30,35,40],
     [30,35,40]
   ]
@@ -796,6 +818,12 @@ function buildEducationHTML(field) {
         <span>${t('eduPhd')}</span>
         <span class="opt-pts">+${s.education.phd}pt</span>
       </label>
+      ${s.education.mba ? `
+      <label class="opt-label">
+        <input type="radio" name="education" value="mba" onchange="recalc()">
+        <span>${t('eduMBA')}</span>
+        <span class="opt-pts">+${s.education.mba}pt</span>
+      </label>` : ''}
       <label class="opt-label">
         <input type="radio" name="education" value="master" onchange="recalc()">
         <span>${t('eduMaster')}</span>
@@ -811,12 +839,6 @@ function buildEducationHTML(field) {
         <span>${t('eduMultiDegree')}</span>
         <span class="opt-pts">+5pt</span>
       </label>
-      ${field === 'management' ? `
-      <label class="opt-label">
-        <input type="checkbox" name="eduMBA" onchange="recalc()">
-        <span>${t('eduMBA')}</span>
-        <span class="opt-pts">+5pt</span>
-      </label>` : ''}
     </div>`;
 }
 
@@ -876,7 +898,7 @@ function buildAgeHTML() {
 function selectAge(idx) {
   selectedAge = idx;
   selectedIncome = -1;
-  recalc();
+  renderAll();
 }
 
 function buildIncomeHTML(field, ageIdx) {
@@ -903,7 +925,7 @@ function buildIncomeHTML(field, ageIdx) {
   let html = '<div class="option-group">';
   for (let i = thresholds.length - 1; i >= 0; i--) {
     const val = thresholds[i];
-    const display = val >= 1000 ? (val / 10000) + '千万円～' : val + '万円～';
+    const display = t('income' + val);
     html += `
     <label class="opt-label">
       <input type="radio" name="income" value="${i}" onchange="selectIncome(${i})">
@@ -912,7 +934,7 @@ function buildIncomeHTML(field, ageIdx) {
     </label>`;
   }
   html += '</div>';
-  html += `<div class="note">${t('noteIncomeMin')}</div>`;
+  if (field === 'technical') html += `<div class="note">${t('noteIncomeMin')}</div>`;
   return html;
 }
 
@@ -953,9 +975,9 @@ function buildResearchHTML(field) {
 
 function buildBonusHTML(field) {
   const bonuses = [
-    { id: 'bonus1', key: 'bonus1', pts: field === 'academic' ? 0 : 15, note: field === 'academic' ? 'noteBonus1' : null, na: false },
+    { id: 'bonus1', key: 'bonus1', pts: field === 'academic' ? 0 : 15, note: field === 'academic' ? 'noteBonus1' : null, na: field === 'management', naNote: 'noteBonus1Na' },
     { id: 'bonus2', key: 'bonus2', pts: 10, note: 'noteBonus2', na: field !== 'management' },
-    { id: 'bonus3', key: 'bonus3', pts: 5, note: 'noteBonus3', na: false, max: 10 },
+    { id: 'bonus3', key: 'bonus3', pts: 5, note: 'noteBonus3', na: field !== 'technical', naNote: 'noteBonus3Na', max: 10 },
     { id: 'bonus4', key: 'bonus4', pts: 10, na: false },
     { id: 'bonus5', key: 'bonus5', pts: 5, na: false },
     { id: 'bonus6', key: 'bonus6', pts: 5, na: false },
@@ -966,13 +988,29 @@ function buildBonusHTML(field) {
     { id: 'bonus11', key: 'bonus11', pts: 10, na: false },
     { id: 'bonus12', key: 'bonus12', pts: 5, na: false },
     { id: 'bonus13', key: 'bonus13', pts: 10, na: false },
-    { id: 'bonus14', key: 'bonus14', pts: 10, na: false },
-    { id: 'bonus15', key: 'bonus15', pts: 5, note: 'noteBonus15', na: field !== 'management' }
+    { id: 'bonus14', key: 'bonus14', pts: 10, na: field === 'academic', naNote: 'noteBonus14Na' },
+    { id: 'bonus15', key: 'bonus15', pts: 5, note: 'noteBonus15', na: field !== 'management' },
+    { id: 'bonus4b', key: 'bonus4b', pts: 10, note: 'noteBonus4b', na: false }
   ];
 
   return bonuses.map((b, i) => {
-    if (b.na) return `<div class="note" style="margin-bottom:8px">ボーナス${String.fromCharCode(9312 + i)}: ${t(b.key)} — ${t(b.note || 'noteBonus2')}</div>`;
-    const displayId = `bonus${i + 1}`;
+    if (b.na) return `<div class="note" style="margin-bottom:8px">ボーナス${String.fromCharCode(9312 + i)}: ${t(b.key)} — ${t(b.naNote || b.note || 'noteBonus2')}</div>`;
+    if (b.id === 'bonus2') {
+      return `
+    <div class="option-group" style="margin-bottom:4px">
+      <label class="opt-label">
+        <input type="radio" name="bonus2" value="rep" onchange="recalc()">
+        <span>${String.fromCharCode(9312 + i)} ${t('bonus2Rep')}</span>
+        <span class="opt-pts">+10pt</span>
+      </label>
+      <label class="opt-label">
+        <input type="radio" name="bonus2" value="officer" onchange="recalc()">
+        <span>${t('bonus2Officer')}</span>
+        <span class="opt-pts">+5pt</span>
+      </label>
+      <div class="note" style="margin:4px 0 0 28px; padding:4px 10px">${t('noteBonus2')}</div>
+    </div>`;
+    }
     const onClick = b.id === 'bonus3' ? 'onchange="recalcBonus3()"' : 'onchange="recalc()"';
     return `
     <div class="option-group" style="margin-bottom:4px">
@@ -1005,7 +1043,6 @@ function calculateScore() {
   const eduVal = document.querySelector('input[name="education"]:checked')?.value;
   if (eduVal) total += SCORING[field].education[eduVal] || 0;
   if (document.querySelector('input[name="eduMulti"]')?.checked) total += 5;
-  if (field === 'management' && document.querySelector('input[name="eduMBA"]')?.checked) total += 5;
 
   const expVal = document.querySelector('input[name="experience"]:checked')?.value;
   if (expVal) total += SCORING[field].experience[expVal] || 0;
@@ -1039,11 +1076,17 @@ function calculateScore() {
     }
   }
 
+  if (field === 'management') {
+    const pos = document.querySelector('input[name="bonus2"]:checked')?.value;
+    if (pos === 'rep') total += 10;
+    else if (pos === 'officer') total += 5;
+  }
+
   const bonusPoints = {
     bonus1: field === 'academic' ? 0 : 15,
-    bonus2: 10,
     bonus3: 5,
     bonus4: 10,
+    bonus4b: 10,
     bonus5: 5,
     bonus6: 5,
     bonus7: 10,
@@ -1060,8 +1103,9 @@ function calculateScore() {
   for (const [bid, pts] of Object.entries(bonusPoints)) {
     const cb = document.querySelector(`input[name="${bid}"]`);
     if (cb && cb.checked) {
-      if (bid === 'bonus1' && field === 'academic') continue;
-      if (bid === 'bonus2' && field !== 'management') continue;
+      if (bid === 'bonus1' && (field === 'academic' || field === 'management')) continue;
+      if (bid === 'bonus3' && field !== 'technical') continue;
+      if (bid === 'bonus14' && field === 'academic') continue;
       if (bid === 'bonus15' && field !== 'management') continue;
       total += pts;
     }
@@ -1100,7 +1144,6 @@ function getSubtotals() {
   const eduVal = document.querySelector('input[name="education"]:checked')?.value;
   if (eduVal) eduTotal += SCORING[field].education[eduVal] || 0;
   if (document.querySelector('input[name="eduMulti"]')?.checked) eduTotal += 5;
-  if (field === 'management' && document.querySelector('input[name="eduMBA"]')?.checked) eduTotal += 5;
 
   const expVal = document.querySelector('input[name="experience"]:checked')?.value;
   if (expVal) expTotal += SCORING[field].experience[expVal] || 0;
@@ -1130,17 +1173,24 @@ function getSubtotals() {
     }
   }
 
+  if (field === 'management') {
+    const pos = document.querySelector('input[name="bonus2"]:checked')?.value;
+    if (pos === 'rep') bonusTotal += 10;
+    else if (pos === 'officer') bonusTotal += 5;
+  }
+
   const bonusPoints = {
     bonus1: field === 'academic' ? 0 : 15,
-    bonus2: 10, bonus3: 5, bonus4: 10, bonus5: 5, bonus6: 5, bonus7: 10,
+    bonus3: 5, bonus4: 10, bonus4b: 10, bonus5: 5, bonus6: 5, bonus7: 10,
     bonus8: 15, bonus9: 10, bonus10: 10, bonus11: 10, bonus12: 5,
     bonus13: 10, bonus14: 10, bonus15: 5
   };
   for (const [bid, pts] of Object.entries(bonusPoints)) {
     const cb = document.querySelector(`input[name="${bid}"]`);
     if (!cb || !cb.checked) continue;
-    if (bid === 'bonus1' && field === 'academic') continue;
-    if (bid === 'bonus2' && field !== 'management') continue;
+    if (bid === 'bonus1' && (field === 'academic' || field === 'management')) continue;
+    if (bid === 'bonus3' && field !== 'technical') continue;
+    if (bid === 'bonus14' && field === 'academic') continue;
     if (bid === 'bonus15' && field !== 'management') continue;
     bonusTotal += pts;
   }
@@ -1171,9 +1221,38 @@ function toggleCategory(header) {
   body.style.display = body.style.display === 'none' ? 'block' : 'none';
 }
 
+function snapshotForm() {
+  const snap = {};
+  document.querySelectorAll('#calcForm input').forEach(inp => {
+    snap[inp.name + '\u0000' + inp.value] = inp.checked;
+  });
+  return snap;
+}
+
+function restoreForm(snap) {
+  document.querySelectorAll('#calcForm input').forEach(inp => {
+    const key = inp.name + '\u0000' + inp.value;
+    if (snap[key]) {
+      inp.checked = true;
+      if (inp.type === 'radio') inp.closest('.opt-label')?.classList.add('selected');
+    }
+  });
+  document.querySelectorAll('input[name="age"]').forEach(r => {
+    const on = r.value === String(selectedAge);
+    r.checked = on;
+    r.closest('.opt-label')?.classList.toggle('selected', on);
+  });
+  document.querySelectorAll('input[name="income"]').forEach(r => {
+    const on = selectedIncome >= 0 && r.value === String(selectedIncome);
+    r.checked = on;
+    r.closest('.opt-label')?.classList.toggle('selected', on);
+  });
+}
+
 function renderAll() {
   const field = currentField;
   const form = document.getElementById('calcForm');
+  const snap = snapshotForm();
 
   form.innerHTML = `
     <div class="category" data-od-id="cat-education">
@@ -1242,6 +1321,7 @@ function renderAll() {
     </div>
   `;
 
+  restoreForm(snap);
   recalc();
 }
 
@@ -1261,7 +1341,7 @@ renderAll();
 
 document.getElementById('calcForm').addEventListener('change', function(e) {
   const tgt = e.target;
-  if (tgt.name === 'education' || tgt.name === 'experience' || tgt.name === 'age') {
+  if (tgt.name === 'education' || tgt.name === 'experience' || tgt.name === 'age' || tgt.name === 'income' || tgt.name === 'bonus2') {
     const parent = tgt.closest('.opt-label');
     if (parent) {
       document.querySelectorAll(`input[name="${tgt.name}"]`).forEach(inp => {
