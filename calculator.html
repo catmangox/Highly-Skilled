@@ -432,7 +432,7 @@ const LANG = {
     bonus6: '職務関連の外国資格等',
     bonus7: '日本の高等教育機関で学位取得',
     bonus8: '日本語能力試験N1合格／大学で日本語専攻',
-    bonus9: '日本語能力試験N2合格（⑦⑧獲得者除く）',
+    bonus9: '日本語能力試験N2合格（⑧⑨獲得者除く）',
     bonus10: '成長分野における先端的事業に従事',
     bonus11: '法務大臣告示大学卒業',
     bonus12: '法務大臣告示研修修了',
@@ -515,7 +515,7 @@ const LANG = {
     bonus6: '持有业务相关外国资格',
     bonus7: '在日本高等教育机构取得学位',
     bonus8: '日语能力考试N1合格／大学日语专业毕业',
-    bonus9: '日语能力考试N2合格（⑦⑧获得者除外）',
+    bonus9: '日语能力考试N2合格（⑧⑨获得者除外）',
     bonus10: '从事成长领域先端业务',
     bonus11: '法务大臣指定大学毕业',
     bonus12: '法务大臣指定研修修了',
@@ -598,7 +598,7 @@ const LANG = {
     bonus6: '持有業務相關外國資格',
     bonus7: '在日本高等教育機構取得學位',
     bonus8: '日語能力考試N1合格／大學日語專業畢業',
-    bonus9: '日語能力考試N2合格（⑦⑧獲得者除外）',
+    bonus9: '日語能力考試N2合格（⑧⑨獲得者除外）',
     bonus10: '從事成長領域先端業務',
     bonus11: '法務大臣指定大學畢業',
     bonus12: '法務大臣指定研修修了',
@@ -681,7 +681,7 @@ const LANG = {
     bonus6: 'Foreign qualification related to duties',
     bonus7: 'Degree from Japanese higher education institution',
     bonus8: 'JLPT N1 passed / Japanese major at university',
-    bonus9: 'JLPT N2 passed (excluding ⑦⑧ holders)',
+    bonus9: 'JLPT N2 passed (excluding ⑧⑨ holders)',
     bonus10: 'Employment in advanced growth sector business',
     bonus11: 'Graduated from Minister-designated university',
     bonus12: 'Completed Minister-designated training',
@@ -979,6 +979,7 @@ function buildBonusHTML(field) {
     { id: 'bonus2', key: 'bonus2', pts: 10, note: 'noteBonus2', na: field !== 'management' },
     { id: 'bonus3', key: 'bonus3', pts: 5, note: 'noteBonus3', na: field !== 'technical', naNote: 'noteBonus3Na', max: 10 },
     { id: 'bonus4', key: 'bonus4', pts: 10, na: false },
+    { id: 'bonus4b', key: 'bonus4b', pts: 10, note: 'noteBonus4b', na: false },
     { id: 'bonus5', key: 'bonus5', pts: 5, na: false },
     { id: 'bonus6', key: 'bonus6', pts: 5, na: false },
     { id: 'bonus7', key: 'bonus7', pts: 10, na: false },
@@ -989,8 +990,7 @@ function buildBonusHTML(field) {
     { id: 'bonus12', key: 'bonus12', pts: 5, na: false },
     { id: 'bonus13', key: 'bonus13', pts: 10, na: false },
     { id: 'bonus14', key: 'bonus14', pts: 10, na: field === 'academic', naNote: 'noteBonus14Na' },
-    { id: 'bonus15', key: 'bonus15', pts: 5, note: 'noteBonus15', na: field !== 'management' },
-    { id: 'bonus4b', key: 'bonus4b', pts: 10, note: 'noteBonus4b', na: false }
+    { id: 'bonus15', key: 'bonus15', pts: 5, note: 'noteBonus15', na: field !== 'management' }
   ];
 
   return bonuses.map((b, i) => {
