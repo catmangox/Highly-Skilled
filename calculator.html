@@ -975,7 +975,7 @@ function buildResearchHTML(field) {
 
 function buildBonusHTML(field) {
   const bonuses = [
-    { id: 'bonus1', key: 'bonus1', pts: field === 'academic' ? 0 : 15, note: field === 'academic' ? 'noteBonus1' : null, na: field === 'management', naNote: 'noteBonus1Na' },
+    { id: 'bonus1', key: 'bonus1', pts: 15, note: null, na: field !== 'technical', naNote: field === 'academic' ? 'noteBonus1' : 'noteBonus1Na' },
     { id: 'bonus2', key: 'bonus2', pts: 10, note: 'noteBonus2', na: field !== 'management' },
     { id: 'bonus3', key: 'bonus3', pts: 5, note: 'noteBonus3', na: field !== 'technical', naNote: 'noteBonus3Na', max: 10 },
     { id: 'bonus4', key: 'bonus4', pts: 10, na: false },
