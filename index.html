@@ -5,49 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>日本高度人才签证 · 积分自测 | KEIHAN</title>
 <meta name="description" content="按出入国在留管理厅官方打分表自测日本高度人才签证（高度専門職）积分。70 分即符合高度人才签证要求，80 分最快 1 年可申请永住。">
-<meta name="theme-color" content="#112035">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23112035'/%3E%3Ctext x='50' y='57' text-anchor='middle' font-family='Arial, sans-serif' font-size='26' font-weight='800' fill='%23C9CED6'%3E70%3C/text%3E%3Crect x='30' y='66' width='40' height='3' rx='1.5' fill='%232D49E8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2318181B'/%3E%3Ctext x='50' y='57' text-anchor='middle' font-family='Arial, sans-serif' font-size='26' font-weight='800' fill='%23D4D4D8'%3E70%3C/text%3E%3Crect x='30' y='66' width='40' height='3' rx='1.5' fill='%232563EB'/%3E%3C/svg%3E">
+<script>
+  // Apply persisted theme before first paint to avoid a flash of the wrong theme.
+  (function () {
+    var t = '';
+    try { t = localStorage.getItem('kx-theme') === 'dark' ? 'dark' : ''; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ------------------------------------------------------------
-     Keihan Design System — tokens (colors_and_type)
+     Keihan Design System — Colors & Type (v5 · SHADCN)
+     zinc palette · Geist · light + dark via data-theme on <html>
      ------------------------------------------------------------ */
   :root {
-    --keihan-ink:        #0A0A0A;
-    --keihan-fg-1:       #0A0A0A;
-    --keihan-fg-2:       #4A4A4A;
-    --keihan-fg-3:       #8A8A8A;
-    --keihan-fg-4:       #B8B8B8;
+    /* shadcn semantic tokens — zinc, light */
+    --background:            #FFFFFF;
+    --foreground:            #09090B;
+    --card:                  #FFFFFF;
+    --primary:               #18181B;
+    --primary-foreground:    #FAFAFA;
+    --muted:                 #F4F4F5;
+    --muted-foreground:      #71717A;
+    --destructive:           #DC2626;
+    --border:                #E4E4E7;
+    --logo-filter:           none;
 
-    --keihan-paper:      #FFFFFF;
-    --keihan-bg:         #F3F4F6;
-    --keihan-line:       #E5E5E5;
-    --keihan-line-soft:  #EFEFEF;
+    /* Zinc ramp */
+    --zinc-50:  #FAFAFA; --zinc-100: #F4F4F5; --zinc-200: #E4E4E7; --zinc-300: #D4D4D8;
+    --zinc-400: #A1A1AA; --zinc-500: #71717A; --zinc-600: #52525B; --zinc-700: #3F3F46;
+    --zinc-800: #27272A; --zinc-900: #18181B; --zinc-950: #09090B;
 
-    --keihan-navy:       #112035;
-    --keihan-navy-deep:  #0A1626;
-    --keihan-navy-50:    #EEF0F4;
-    --keihan-navy-100:   #D6DCE5;
-    --keihan-navy-200:   #A8B3C2;
+    /* Legacy --keihan-* aliases, remapped onto zinc */
+    --keihan-fg-1:       var(--foreground);
+    --keihan-fg-2:       var(--zinc-700);
+    --keihan-fg-3:       var(--muted-foreground);
+    --keihan-fg-4:       var(--zinc-400);
+    --keihan-paper:      var(--card);
+    --keihan-bg:         var(--zinc-50);
+    --keihan-line:       var(--border);
+    --keihan-line-soft:  var(--zinc-100);
+    --keihan-navy:       var(--primary);
+    --keihan-navy-50:    var(--zinc-100);
+    --keihan-navy-200:   var(--zinc-400);
+    --keihan-blue:       #2563EB;
 
-    --keihan-silver:     #C9CED6;
-    --keihan-silver-deep:#9EA5B0;
+    --font-display: "Geist", "Noto Sans JP", "Noto Sans SC", -apple-system, sans-serif;
+    --font-sans:    "Geist", "Noto Sans JP", "Noto Sans SC", -apple-system, "Segoe UI", sans-serif;
+    --font-mono:    "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-    --keihan-blue:       #2D49E8;
-    --keihan-coral:      #E94B3C;
-    --keihan-coral-deep: #C73828;
-    --keihan-coral-50:   #FDECEA;
-
-    --font-display: "Roboto", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif;
-    --font-sans:    "Roboto", "Noto Sans JP", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-
-    --shadow-deck: 0 12px 28px rgba(17, 32, 53, 0.10), 0 4px 8px rgba(17, 32, 53, 0.04);
-    --shadow-inset-line: inset 4px 0 0 var(--keihan-navy);
-
+    --shadow-deck: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
     --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  /* Dark theme — zinc dark */
+  [data-theme="dark"] {
+    --background: #09090B; --foreground: #FAFAFA;
+    --card: #18181B;
+    --primary: #FAFAFA; --primary-foreground: #18181B;
+    --muted: #27272A; --muted-foreground: #A1A1AA;
+    --destructive: #EF4444;
+    --border: #27272A;
+    --logo-filter: brightness(0) invert(0.98);
+    --keihan-fg-1: #FAFAFA; --keihan-fg-2: #D4D4D8; --keihan-fg-3: #A1A1AA; --keihan-fg-4: #52525B;
+    --keihan-paper: #18181B; --keihan-bg: #09090B;
+    --keihan-line: #27272A; --keihan-line-soft: #1F1F23;
+    --keihan-navy: #FAFAFA;
+    --keihan-navy-50: #27272A; --keihan-navy-200: #71717A;
+    --keihan-blue: #60A5FA;
+    --shadow-deck: 0 10px 15px -3px rgba(0,0,0,0.6), 0 4px 6px -4px rgba(0,0,0,0.6);
   }
 
   * { box-sizing: border-box; }
@@ -57,9 +88,9 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  body { margin: 0; background: #F3F4F6; }
-  a { color: #112035; text-decoration: none; }
-  a:hover { border-bottom: 1px solid #112035; }
+  body { margin: 0; background: var(--keihan-bg, #FAFAFA); }
+  a { color: var(--foreground, #09090B); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
   button { font: inherit; }
 
   .kx-main { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
@@ -88,10 +119,10 @@
 <div style="min-height: 100vh; background: var(--keihan-bg); font-family: var(--font-sans); color: var(--keihan-fg-1);">
 
   <!-- Header -->
-  <header style="background: var(--keihan-paper); border-bottom: 1px solid var(--keihan-line);">
-    <div style="max-width: 1160px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+  <header style="position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--background) 86%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 14px;">
-        <img src="assets/logo-mark-only.png" alt="KEIHAN" style="height: 38px; display: block;">
+        <img src="assets/logo-mark-zinc.png" alt="KEIHAN" style="height: 26px; display: block; filter: var(--logo-filter);">
         <div style="width: 1px; height: 24px; background: var(--keihan-line);"></div>
         <div id="brand-sub" style="font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--keihan-fg-2);"></div>
       </div>
@@ -100,11 +131,11 @@
   </header>
 
   <!-- Hero -->
-  <div style="background: var(--keihan-navy);">
+  <div style="background: var(--background); border-bottom: 1px solid var(--border);">
     <div class="kx-hero" style="max-width: 1160px; margin: 0 auto;">
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--keihan-silver);">HSP POINTS CALCULATOR</div>
-      <h1 id="hero-title" style="margin: 12px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4vw, 40px); line-height: 1.15; letter-spacing: -0.02em; color: #FFFFFF;"></h1>
-      <p id="hero-sub" style="margin: 14px 0 0; max-width: 720px; font-size: 15px; line-height: 1.7; color: var(--keihan-silver);"></p>
+      <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground);">HSP POINTS CALCULATOR</div>
+      <h1 id="hero-title" style="margin: 12px 0 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; letter-spacing: -0.025em; color: var(--foreground);"></h1>
+      <p id="hero-sub" style="margin: 14px 0 0; max-width: 720px; font-size: 14px; line-height: 1.7; color: var(--muted-foreground);"></p>
     </div>
   </div>
 
@@ -125,10 +156,10 @@
 
       <!-- Score panel -->
       <aside class="kx-side">
-        <div class="kx-scard" style="background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 10px; box-shadow: var(--shadow-deck);">
-          <div id="score-label" style="font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--keihan-fg-3);"></div>
+        <div class="kx-scard" style="background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 12px; box-shadow: var(--shadow-deck);">
+          <div id="score-label" style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--muted-foreground);"></div>
           <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 10px;">
-            <span id="score" style="font-family: var(--font-display); font-weight: 800; font-size: 72px; line-height: 0.9; letter-spacing: -0.02em; color: var(--keihan-navy); font-feature-settings: 'tnum' 1;">0</span>
+            <span id="score" style="font-family: var(--font-display); font-weight: 600; font-size: 64px; line-height: 0.95; letter-spacing: -0.03em; color: var(--foreground); font-feature-settings: 'tnum' 1;">0</span>
             <span id="unit" style="font-size: 15px; font-weight: 500; color: var(--keihan-fg-3);"></span>
           </div>
 
@@ -136,8 +167,8 @@
           <div style="margin-top: 22px;">
             <div style="position: relative; height: 6px; background: var(--keihan-navy-50); border-radius: 3px;">
               <div id="fill" style="position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--keihan-navy-200); border-radius: 3px; transition: width 320ms var(--ease-out), background 320ms var(--ease-out);"></div>
-              <div style="position: absolute; left: 70%; top: -4px; width: 1.5px; height: 14px; background: var(--keihan-silver-deep);"></div>
-              <div style="position: absolute; left: 80%; top: -4px; width: 1.5px; height: 14px; background: var(--keihan-silver-deep);"></div>
+              <div style="position: absolute; left: 70%; top: -4px; width: 1.5px; height: 14px; background: var(--zinc-400);"></div>
+              <div style="position: absolute; left: 80%; top: -4px; width: 1.5px; height: 14px; background: var(--zinc-400);"></div>
             </div>
             <div style="position: relative; height: 16px; margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--keihan-fg-3);">
               <span style="position: absolute; left: 0;">0</span>
@@ -151,8 +182,8 @@
           <div id="statuses" style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px;"></div>
 
           <!-- Result / benefits -->
-          <div style="margin-top: 16px; background: var(--keihan-navy-50); box-shadow: var(--shadow-inset-line); border-radius: 6px; padding: 14px 16px 14px 20px;">
-            <div id="result-title" style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--keihan-navy);"></div>
+          <div style="margin-top: 16px; background: var(--muted); border-radius: 8px; padding: 14px 16px;">
+            <div id="result-title" style="font-size: 13px; font-weight: 600; color: var(--foreground);"></div>
             <div id="benefits" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;"></div>
           </div>
 
@@ -167,26 +198,26 @@
   </div>
 
   <!-- Footer -->
-  <footer style="background: var(--keihan-navy);">
+  <footer style="background: var(--background); border-top: 1px solid var(--border);">
     <div style="max-width: 1160px; margin: 0 auto; padding: 22px 24px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline;">
-      <div style="font-size: 12px; color: var(--keihan-silver);">© 京阪住業株式会社 KEIHAN JUGYO K.K.</div>
-      <div style="font-family: var(--font-mono); font-size: 12px;"><a href="https://keihan.co" style="color: var(--keihan-silver); border-bottom: none;">keihan.co</a></div>
+      <div style="font-size: 12px; color: var(--muted-foreground);">© 京阪住業株式会社 KEIHAN JUGYO K.K.</div>
+      <div style="font-family: var(--font-mono); font-size: 12px;"><a href="https://keihan.co" style="color: var(--muted-foreground);">keihan.co</a></div>
     </div>
   </footer>
 
   <!-- Mobile sticky score bar -->
-  <div class="kx-mbar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--keihan-navy); box-shadow: 0 -6px 20px rgba(17, 32, 53, 0.25); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); align-items: center; gap: 14px;">
+  <div class="kx-mbar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--zinc-900); box-shadow: 0 -4px 16px rgba(0,0,0,0.25); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); align-items: center; gap: 14px;">
     <div style="display: flex; align-items: baseline; gap: 5px; flex: none;">
-      <span id="m-score" style="font-family: var(--font-display); font-weight: 800; font-size: 34px; line-height: 0.9; letter-spacing: -0.02em; color: #FFFFFF; font-feature-settings: 'tnum' 1;">0</span>
-      <span id="m-unit" style="font-size: 12px; font-weight: 500; color: var(--keihan-silver);"></span>
+      <span id="m-score" style="font-family: var(--font-display); font-weight: 600; font-size: 32px; line-height: 0.95; letter-spacing: -0.025em; color: #FFFFFF; font-feature-settings: 'tnum' 1;">0</span>
+      <span id="m-unit" style="font-size: 12px; font-weight: 500; color: var(--zinc-400);"></span>
     </div>
     <div style="flex: 1; min-width: 0;">
       <div style="position: relative; height: 5px; background: rgba(255,255,255,0.18); border-radius: 3px;">
-        <div id="m-fill" style="position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--keihan-silver); border-radius: 3px; transition: width 320ms var(--ease-out);"></div>
-        <div style="position: absolute; left: 70%; top: -3px; width: 1.5px; height: 11px; background: var(--keihan-silver-deep);"></div>
-        <div style="position: absolute; left: 80%; top: -3px; width: 1.5px; height: 11px; background: var(--keihan-silver-deep);"></div>
+        <div id="m-fill" style="position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--zinc-300); border-radius: 3px; transition: width 320ms var(--ease-out);"></div>
+        <div style="position: absolute; left: 70%; top: -3px; width: 1.5px; height: 11px; background: var(--zinc-400);"></div>
+        <div style="position: absolute; left: 80%; top: -3px; width: 1.5px; height: 11px; background: var(--zinc-400);"></div>
       </div>
-      <div id="m-text" style="margin-top: 7px; font-size: 11.5px; line-height: 1.35; color: var(--keihan-silver); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+      <div id="m-text" style="margin-top: 7px; font-size: 11.5px; line-height: 1.35; color: var(--zinc-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
     </div>
     <span id="m-badge"></span>
   </div>
@@ -205,7 +236,24 @@ const state = {
   lang: 'zh',
   cat: 'c',
   sel: { a: {}, b: {}, c: {} },
+  theme: (function () {
+    try { return localStorage.getItem('kx-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; }
+  })(),
 };
+
+function applyTheme(th) {
+  document.documentElement.setAttribute('data-theme', th === 'dark' ? 'dark' : '');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = th === 'dark' ? '#09090B' : '#FFFFFF';
+}
+
+function toggleTheme() {
+  const th = state.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('kx-theme', th); } catch (e) {}
+  state.theme = th;
+  applyTheme(th);
+  render();
+}
 
 // ---------- static data ----------
 const UI = {
@@ -381,6 +429,9 @@ const INCOME_MATRIX = {
 
 const HTML_LANG = { zh: 'zh-CN', tw: 'zh-TW', ja: 'ja', ko: 'ko', en: 'en' };
 
+const SUN_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>';
+const MOON_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>';
+
 // ---------- helpers ----------
 function tx(obj) { const l = state.lang; return (obj && (obj[l] ?? obj.zh)) || ''; }
 
@@ -515,20 +566,21 @@ function render() {
   $('unit').textContent = t.unit;
   $('m-unit').textContent = t.unit;
 
-  // language buttons
+  // language buttons + theme toggle
   const LANGS = [['zh', '简体'], ['tw', '繁體'], ['ja', '日本語'], ['ko', '한국어'], ['en', 'EN']];
   $('langs').innerHTML = LANGS.map(([id, label]) => {
     const on = id === lang;
-    return `<button type="button" data-lang="${id}" aria-pressed="${on}" style="font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em; padding: 7px 12px; border-radius: 6px; cursor: pointer; border: 1px solid ${on ? 'var(--keihan-navy)' : 'var(--keihan-line)'}; background: ${on ? 'var(--keihan-navy)' : 'var(--keihan-paper)'}; color: ${on ? '#fff' : 'var(--keihan-fg-2)'}; transition: all 200ms var(--ease-out);">${label}</button>`;
-  }).join('');
+    return `<button type="button" data-lang="${id}" aria-pressed="${on}" style="font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; padding: 7px 12px; border-radius: 8px; cursor: pointer; border: 1px solid ${on ? 'var(--primary)' : 'var(--keihan-line)'}; background: ${on ? 'var(--primary)' : 'var(--keihan-paper)'}; color: ${on ? 'var(--primary-foreground)' : 'var(--keihan-fg-2)'}; transition: all 200ms var(--ease-out);">${label}</button>`;
+  }).join('') +
+    `<button type="button" data-action="theme" title="Light / Dark" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border-radius: 8px; cursor: pointer; border: 1px solid var(--keihan-line); background: var(--keihan-paper); color: var(--keihan-fg-2); transition: all 200ms var(--ease-out);">${state.theme === 'dark' ? SUN_SVG : MOON_SVG}</button>`;
 
   // category tabs
   $('cats').innerHTML = CATS.map((c) => {
     const on = c.id === cat;
-    return `<button type="button" data-cat="${c.id}" aria-pressed="${on}" style="text-align: left; cursor: pointer; border-radius: 10px; padding: 18px 20px; border: 1px solid ${on ? 'var(--keihan-navy)' : 'var(--keihan-line)'}; background: ${on ? 'var(--keihan-navy)' : 'var(--keihan-paper)'}; color: ${on ? '#fff' : 'var(--keihan-fg-1)'}; box-shadow: ${on ? 'var(--shadow-deck)' : 'none'}; transition: all 200ms var(--ease-out); font-family: var(--font-sans);">` +
-      `<span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 4px; background: ${on ? 'rgba(255,255,255,0.14)' : 'var(--keihan-navy-50)'}; color: ${on ? 'var(--keihan-silver)' : 'var(--keihan-navy)'};">${c.badge}</span>` +
+    return `<button type="button" data-cat="${c.id}" aria-pressed="${on}" style="text-align: left; cursor: pointer; border-radius: 12px; padding: 18px 20px; border: 1px solid ${on ? 'var(--primary)' : 'var(--keihan-line)'}; background: ${on ? 'var(--primary)' : 'var(--keihan-paper)'}; color: ${on ? 'var(--primary-foreground)' : 'var(--keihan-fg-1)'}; box-shadow: ${on ? 'var(--shadow-deck)' : 'none'}; transition: all 200ms var(--ease-out); font-family: var(--font-sans);">` +
+      `<span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 4px; background: ${on ? 'color-mix(in srgb, var(--primary-foreground) 14%, transparent)' : 'var(--muted)'}; color: ${on ? 'var(--primary-foreground)' : 'var(--foreground)'};">${c.badge}</span>` +
       `<span style="display: block; margin-top: 10px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;">${esc(tx(c.name))}</span>` +
-      `<span style="display: block; margin-top: 4px; font-size: 11.5px; letter-spacing: 0.04em; color: ${on ? 'var(--keihan-silver)' : 'var(--keihan-fg-3)'};">${esc(c.ja)}</span>` +
+      `<span style="display: block; margin-top: 4px; font-size: 11.5px; letter-spacing: 0.04em; color: ${on ? 'color-mix(in srgb, var(--primary-foreground) 72%, transparent)' : 'var(--keihan-fg-3)'};">${esc(c.ja)}</span>` +
       `</button>`;
   }).join('');
 
@@ -555,26 +607,26 @@ function render() {
       }
       const isRadio = it.kind === 'radio';
       if (isRadio) hasRadio = true; else hasCheck = true;
-      const asRadioLook = isRadio && S.id !== 'bonus'; // bonus 区全部统一为方形勾选框样式
+      const asRadioLook = isRadio; // 指示器形状跟随交互语义：单选=圆形，多选=方形
       const on = isRadio ? sel[it.key] === it.id : !!sel[it.id];
       const dim = pts === 0 && S.id === 'income';
-      const ptsText = S.id === 'research' ? '✓' : (pts === 0 ? '+0' : '+' + pts);
+      const ptsText = S.id === 'research' ? '' : (pts === 0 ? '+0' : '+' + pts);
       rows.push(
-        `<div role="${isRadio ? 'radio' : 'checkbox'}" aria-checked="${on}" tabindex="0" data-kind="${it.kind}"${isRadio ? ` data-key="${it.key}"` : ''} data-id="${it.id}" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 14px; border-radius: 6px; cursor: pointer; user-select: none; border: 1px solid ${on ? 'var(--keihan-navy)' : 'var(--keihan-line)'}; background: ${on ? 'var(--keihan-navy)' : 'var(--keihan-paper)'}; color: ${on ? '#fff' : (dim ? 'var(--keihan-fg-4)' : 'var(--keihan-fg-1)')}; transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);">` +
+        `<div role="${isRadio ? 'radio' : 'checkbox'}" aria-checked="${on}" tabindex="0" data-kind="${it.kind}"${isRadio ? ` data-key="${it.key}"` : ''} data-id="${it.id}" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 14px; border-radius: 8px; cursor: pointer; user-select: none; border: 1px solid ${on ? 'var(--primary)' : 'var(--keihan-line)'}; background: ${on ? 'var(--primary)' : 'var(--keihan-paper)'}; color: ${on ? 'var(--primary-foreground)' : (dim ? 'var(--keihan-fg-4)' : 'var(--keihan-fg-1)')}; transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);">` +
         `<div style="display: flex; align-items: center; gap: 12px; min-width: 0;">` +
-        `<span style="flex: none; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: ${asRadioLook ? '50%' : '3px'}; border: 1px solid ${on ? '#fff' : 'var(--keihan-silver-deep)'}; background: ${on ? '#fff' : 'transparent'}; color: var(--keihan-navy); font-size: 10px; font-weight: 800; line-height: 1;">${on ? (asRadioLook ? '●' : '✓') : ''}</span>` +
+        `<span style="flex: none; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: ${asRadioLook ? '50%' : '4px'}; border: 1px solid ${on ? 'var(--primary-foreground)' : 'var(--zinc-400)'}; background: ${on ? 'var(--primary-foreground)' : 'transparent'}; color: var(--primary); font-size: 10px; font-weight: 700; line-height: 1;">${on ? (asRadioLook ? '●' : '✓') : ''}</span>` +
         `<span style="font-size: 14px; line-height: 1.45;">${esc(tx(it.label))}</span>` +
         `</div>` +
-        `<span style="flex: none; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: ${on ? 'var(--keihan-silver)' : (dim ? 'var(--keihan-fg-4)' : 'var(--keihan-navy)')};">${ptsText}</span>` +
+        `<span style="flex: none; font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: ${on ? 'color-mix(in srgb, var(--primary-foreground) 78%, transparent)' : (dim ? 'var(--keihan-fg-4)' : 'var(--foreground)')};">${ptsText}</span>` +
         `</div>`
       );
     }
     if (!rows.length) continue;
     const mode = hasRadio && !hasCheck ? t.single : (!hasRadio ? t.multi : t.single + ' + ' + t.multi);
     sectionsHtml.push(
-      `<section class="kx-sec" style="background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 10px;">` +
+      `<section class="kx-sec" style="background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 12px;">` +
       `<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">` +
-      `<h4 style="font-size: 17px; font-weight: 600; margin: 0;">${esc(tx(S.title))}</h4>` +
+      `<h4 style="font-size: 16px; font-weight: 600; letter-spacing: -0.015em; margin: 0;">${esc(tx(S.title))}</h4>` +
       `<span style="font-family: var(--font-mono); font-size: 11px; color: var(--keihan-fg-3); letter-spacing: 0.04em; white-space: nowrap;">${esc(mode)}</span>` +
       `</div>` +
       (note ? `<p style="margin: 6px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--keihan-fg-3);">${esc(note)}</p>` : '') +
@@ -589,18 +641,18 @@ function render() {
   $('score').textContent = String(total);
   const fill = $('fill');
   fill.style.width = pct + '%';
-  fill.style.background = total >= 70 ? 'var(--keihan-navy)' : 'var(--keihan-navy-200)';
+  fill.style.background = total >= 70 ? 'var(--primary)' : 'var(--keihan-navy-200)';
 
   $('statuses').innerHTML = [
     { pts: '70', name: t.t70, met: total >= 70 },
     { pts: '80', name: t.t80, met: total >= 80 },
   ].map((s) =>
-    `<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--keihan-line); border-radius: 6px; padding: 10px 12px;">` +
+    `<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;">` +
     `<div style="display: flex; align-items: baseline; gap: 10px;">` +
-    `<span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--keihan-navy);">${s.pts}</span>` +
+    `<span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; font-feature-settings: 'tnum' 1; color: var(--foreground);">${s.pts}</span>` +
     `<span style="font-size: 13px; font-weight: 500;">${esc(s.name)}</span>` +
     `</div>` +
-    `<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 999px; background: ${s.met ? 'var(--keihan-navy)' : 'var(--keihan-bg)'}; color: ${s.met ? '#fff' : 'var(--keihan-fg-3)'}; border: 1px solid ${s.met ? 'var(--keihan-navy)' : 'var(--keihan-line)'};">${esc(s.met ? t.met : t.notMet)}</span>` +
+    `<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 999px; background: ${s.met ? 'var(--primary)' : 'var(--keihan-bg)'}; color: ${s.met ? 'var(--primary-foreground)' : 'var(--keihan-fg-3)'}; border: 1px solid ${s.met ? 'var(--primary)' : 'var(--keihan-line)'};">${esc(s.met ? t.met : t.notMet)}</span>` +
     `</div>`
   ).join('');
 
@@ -608,14 +660,14 @@ function render() {
   $('result-title').textContent = resultTitle;
   $('benefits').innerHTML = (BENEFITS[lang] || BENEFITS.zh).map((x) =>
     `<div style="display: flex; gap: 8px; font-size: 12.5px; line-height: 1.55; color: var(--keihan-fg-1);">` +
-    `<span style="color: var(--keihan-navy); font-weight: 700;">—</span>` +
+    `<span style="color: var(--muted-foreground);">—</span>` +
     `<span>${esc(x)}</span>` +
     `</div>`
   ).join('');
 
   $('warnings-slot').innerHTML = warnings.length
-    ? `<div style="margin-top: 12px; background: var(--keihan-coral-50); box-shadow: inset 4px 0 0 var(--keihan-coral); border-radius: 6px; padding: 12px 14px 12px 18px; display: flex; flex-direction: column; gap: 6px;">` +
-      warnings.map((w) => `<div style="font-size: 12.5px; line-height: 1.55; color: var(--keihan-coral-deep);">${esc(w)}</div>`).join('') +
+    ? `<div style="margin-top: 12px; background: var(--background); border: 1px solid var(--destructive); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;">` +
+      warnings.map((w) => `<div style="font-size: 12.5px; line-height: 1.55; color: var(--destructive);">${esc(w)}</div>`).join('') +
       `</div>`
     : '';
 
@@ -624,13 +676,13 @@ function render() {
   const showSugg = total < 80;
   const gapText = total < 70 ? t.gap70(gap70) : t.gap80(gap80);
   $('sugg-slot').innerHTML = showSugg
-    ? `<div style="margin-top: 16px; background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 10px; padding: 20px 22px;">` +
-      `<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--keihan-fg-3);">${esc(t.suggTitle)}</div>` +
+    ? `<div style="margin-top: 16px; background: var(--keihan-paper); border: 1px solid var(--keihan-line); border-radius: 12px; padding: 20px 22px;">` +
+      `<div style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--muted-foreground);">${esc(t.suggTitle)}</div>` +
       `<div style="margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--keihan-navy);">${esc(gapText)}</div>` +
       `<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">` +
       suggestions(cat, sel, total).map((sg) =>
         `<div style="display: flex; align-items: baseline; gap: 12px; border-top: 1px solid var(--keihan-line-soft); padding-top: 8px;">` +
-        `<span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--keihan-blue); white-space: nowrap;">${sg.pts}</span>` +
+        `<span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; font-feature-settings: 'tnum' 1; color: var(--keihan-blue); white-space: nowrap;">${sg.pts}</span>` +
         `<span style="font-size: 12.5px; line-height: 1.5; color: var(--keihan-fg-2);">${esc(sg.label)}</span>` +
         `</div>`
       ).join('') +
@@ -641,15 +693,17 @@ function render() {
   $('m-score').textContent = String(total);
   const mFill = $('m-fill');
   mFill.style.width = pct + '%';
-  mFill.style.background = total >= 70 ? '#FFFFFF' : 'var(--keihan-silver)';
+  mFill.style.background = total >= 70 ? '#FFFFFF' : 'var(--zinc-300)';
   $('m-text').textContent = total < 70 ? gapText : resultTitle;
   const mBadge = $('m-badge');
   mBadge.textContent = total >= 70 ? '70+' : String(total) + ' / 70';
-  mBadge.style.cssText = `flex: none; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 999px; background: ${total >= 70 ? '#FFFFFF' : 'rgba(255,255,255,0.12)'}; color: ${total >= 70 ? 'var(--keihan-navy)' : 'var(--keihan-silver)'}; border: 1px solid ${total >= 70 ? '#FFFFFF' : 'rgba(255,255,255,0.25)'};`;
+  mBadge.style.cssText = `flex: none; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 999px; background: ${total >= 70 ? '#FFFFFF' : 'rgba(255,255,255,0.12)'}; color: ${total >= 70 ? '#18181B' : 'var(--zinc-300)'}; border: 1px solid ${total >= 70 ? '#FFFFFF' : 'rgba(255,255,255,0.25)'};`;
 }
 
 // ---------- events ----------
 function activate(el) {
+  const themeBtn = el.closest('[data-action="theme"]');
+  if (themeBtn) { toggleTheme(); return; }
   const langBtn = el.closest('[data-lang]');
   if (langBtn) { state.lang = langBtn.dataset.lang; render(); return; }
   const catBtn = el.closest('[data-cat]');
@@ -669,6 +723,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+applyTheme(state.theme);
 render();
 </script>
 </body>
