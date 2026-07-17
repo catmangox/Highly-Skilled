@@ -1,5 +1,7 @@
 # 高度人才评分系统 · Japan HSP Points Calculator
 
+**简体中文** | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [English](README.en.md)
+
 日本高度人才签证（高度専門職）积分自测工具。依据出入国在留管理厅官方打分表（高度専門職省令），勾选自身条件即可实时计算得分：**70 分**即符合高度人才签证要求，**80 分**最快 1 年可申请永住。
 
 **在线体验：[point.keihan.co](https://point.keihan.co)** · © 京阪住業株式会社 KEIHAN JUGYO K.K.
