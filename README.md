@@ -1,5 +1,7 @@
 # 高度人才评分系统 · Japan HSP Points Calculator
 
+**简体中文** | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [English](README.en.md)
+
 日本高度人才签证（高度専門職）积分自测工具。依据出入国在留管理厅官方打分表（高度専門職省令），勾选自身条件即可实时计算得分：**70 分**即符合高度人才签证要求，**80 分**最快 1 年可申请永住。
 
 **在线体验：[point.keihan.co](https://point.keihan.co)** · © 京阪住業株式会社 KEIHAN JUGYO K.K.
@@ -12,6 +14,7 @@
 - **实时得分面板**：70 / 80 分门槛状态、可享待遇清单、进度条
 - **规则冲突提示**：如 N2 与「日本大学毕业」加分不可并用、中小企业加分需搭配创新支援措施等
 - **提升建议**：距离目标分数时，自动列出最有效的加分项
+- **明暗主题**：一键切换 Light / Dark，偏好本地记忆
 - **移动端适配**：响应式布局 + 底部悬浮得分栏
 
 ## 使用
@@ -32,7 +35,7 @@ open index.html
 ```
 ├── index.html                 # 单文件应用：页面、样式、打分逻辑
 └── assets/
-    └── logo-mark-only.png     # KEIHAN 品牌标志
+    └── logo-mark-zinc.png     # KEIHAN 品牌标志（随主题自动反色）
 ```
 
 技术上为单个自包含 HTML：内联 Keihan 设计系统色彩与排版 token，原生 JavaScript 实现打分引擎与多语言渲染，字体通过 Google Fonts 加载（含系统字体回退）。
